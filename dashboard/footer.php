@@ -7,8 +7,7 @@
                     class="text-muted"
                     href="./accueil"
                     
-                    ><strong>Clinique</strong></a
-                  >
+                    ><strong>Clinique</strong></a>
                   &copy;
                 </p>
               </div>

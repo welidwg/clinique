@@ -1,14 +1,15 @@
 <?php
 session_start();
-if(isset($_SESSION["role"])){
-$role=$_SESSION["role"];
+if (isset($_SESSION["role"])) {
+  $role = $_SESSION["role"];
+  require_once("./PHP_SCRIPT/Utiles.php");
+  $connect = connect_bdd();
 }
 
-if (!isset($_SESSION["login"]) || $role==2) {
-  if(isset($role)){
-    $nom=$_SESSION["username"];
-    $username=$_SESSION["username"];
-    
+if (!isset($_SESSION["login"]) || $role == 2) {
+  if (isset($role)) {
+    $nom = $_SESSION["username"];
+    $username = $_SESSION["username"];
   } ?>
   <!DOCTYPE html>
   <html lang="en">
@@ -24,6 +25,9 @@ if (!isset($_SESSION["login"]) || $role==2) {
     <!-- Favicons -->
     <link href="assets/img/Clinique.png" rel="icon">
     <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+    <link rel="stylesheet" href="assets/fa/css/all.css">
+    <script src="assets/js/jQuery.js"></script>
+
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
@@ -55,10 +59,10 @@ if (!isset($_SESSION["login"]) || $role==2) {
     <div id="topbar" class="d-flex align-items-center fixed-top">
       <div class="container d-flex justify-content-between">
         <div class="contact-info d-flex align-items-center">
-         <?php if(isset($role)){ ?> <i class="bi bi-envelope"></i> <a href="#"><?php echo $username; ?></a> <?php } ?>
+          <?php if (isset($role)) { ?> <i class="fa fa-user"></i> <a href="#"><?php echo $username; ?></a> <?php } ?>
         </div>
         <div class="d-none d-lg-flex social-links align-items-center">
-          <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
+          <a href="#" class="twitter"><i class="fab fa-twitter"></i></a>
           <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
           <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
           <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></i></a>
@@ -70,7 +74,7 @@ if (!isset($_SESSION["login"]) || $role==2) {
     <header id="header" class="fixed-top">
       <div class="container d-flex align-items-center">
 
-        <h1 style="width: 300px;"><a href="index.html"><img src="./assets/img/Clinique.png" alt="" style="width: 150px;height: 100px;"></a></h1>
+        <h1 style="width: 300px;margin-left:-80px"><a href="index.html"><img src="./assets/img/Clinique.png" alt="" style="width: 100px;height:90px;"></a></h1>
         <!-- Uncomment below if you prefer to use an image logo -->
         <!-- <a href="index.html" class="logo me-auto"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
 
@@ -79,6 +83,11 @@ if (!isset($_SESSION["login"]) || $role==2) {
             <li><a class="nav-link scrollto active" href="#hero">Accueil</a></li>
             <li><a class="nav-link scrollto" href="#about">A propos</a></li>
             <li><a class="nav-link scrollto" href="#services">Nos Services</a></li>
+            <?php if (isset($_SESSION['login'])) {
+              if ($_SESSION["role"] == 2) { ?>
+                <li><a class="nav-link scrollto" href="#appointment">Prendre rendez-vous</a></li>
+            <?php }
+            } ?>
             <li><a class="nav-link scrollto" href="#departments">Nos Departements</a></li>
             <li><a class="nav-link scrollto" href="#doctors">Nos Docteurs</a></li>
             <!-- <li class="dropdown"><a href="#"><span>Drop Down</span> <i class="bi bi-chevron-down"></i></a>
@@ -102,9 +111,15 @@ if (!isset($_SESSION["login"]) || $role==2) {
           </ul>
           <i class="bi bi-list mobile-nav-toggle"></i>
         </nav><!-- .navbar -->
+      <?php if(isset($role) && $role==2){ ?>  <a class="appointment-btn scrollto" target="_blank" href="./ProfilePat">Profile</a> <?php } ?>
 
-        <a class="appointment-btn scrollto" id="conn" <?php if(!isset($role)){ ?>onclick="openForm()"<?php } else{ echo "href='PHP_SCRIPT/Utiles.php?Logout'";} ?>><span class="d-none d-md-inline"><?php if(isset($role)){echo "Se</span>Déconnecter";}else{echo "Joignez</span>-nous";} ?> </a>
-
+        <a class="appointment-btn scrollto" id="conn" <?php if (!isset($role)) { ?>onclick="openForm()" <?php } else {
+                                                                                                        echo "href='PHP_SCRIPT/Utiles.php?Logout' style='background-color:lightcoral'";
+                                                                                                      } ?>><span class="d-none d-md-inline"><?php if (isset($role)) {
+                                                                                                                                              echo "Se</span>Déconnecter";
+                                                                                                                                            } else {
+                                                                                                                                              echo "Joignez</span>-nous";
+                                                                                                                                            } ?> </a>
       </div>
     </header><!-- End Header -->
 
@@ -370,69 +385,138 @@ if (!isset($_SESSION["login"]) || $role==2) {
         span.onclick = closeForm();
       </script>
 
-      <!-- ======= Appointment Section ======= -->
-      <!--<section id="appointment" class="appointment section-bg">
-      <div class="container">
+      <?php if (isset($_SESSION["login"])) {
+        if ($_SESSION["role"] == "2") { ?>
+          <!-- ======= Appointment Section ======= -->
+          <section id="appointment" class="appointment section-bg">
+            <div class="container">
 
-        <div class="section-title">
-          <h2>Make an Appointment</h2>
-          <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>
-        </div>
+              <div class="section-title">
+                <h2>Prendre rendez-vous</h2>
+                <?php if (isset($_GET["Done"])) { ?>
+                  <p style="color: limegreen;"> Rendez vous bien enregistrée , veuillez maintenant attendez un e-mail de confirmation de la part de votre medecin </p>
+                <?php } ?>
 
-        <form action="forms/appointment.php" method="post" role="form" class="php-email-form">
-          <div class="row">
-            <div class="col-md-4 form-group">
-              <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" data-rule="minlen:4" data-msg="Please enter at least 4 chars">
-              <div class="validate"></div>
-            </div>
-            <div class="col-md-4 form-group mt-3 mt-md-0">
-              <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" data-rule="email" data-msg="Please enter a valid email">
-              <div class="validate"></div>
-            </div>
-            <div class="col-md-4 form-group mt-3 mt-md-0">
-              <input type="tel" class="form-control" name="phone" id="phone" placeholder="Your Phone" data-rule="minlen:4" data-msg="Please enter at least 4 chars">
-              <div class="validate"></div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-4 form-group mt-3">
-              <input type="datetime" name="date" class="form-control datepicker" id="date" placeholder="Appointment Date" data-rule="minlen:4" data-msg="Please enter at least 4 chars">
-              <div class="validate"></div>
-            </div>
-            <div class="col-md-4 form-group mt-3">
-              <select name="department" id="department" class="form-select">
-                <option value="">Select Department</option>
-                <option value="Department 1">Department 1</option>
-                <option value="Department 2">Department 2</option>
-                <option value="Department 3">Department 3</option>
-              </select>
-              <div class="validate"></div>
-            </div>
-            <div class="col-md-4 form-group mt-3">
-              <select name="doctor" id="doctor" class="form-select">
-                <option value="">Select Doctor</option>
-                <option value="Doctor 1">Doctor 1</option>
-                <option value="Doctor 2">Doctor 2</option>
-                <option value="Doctor 3">Doctor 3</option>
-              </select>
-              <div class="validate"></div>
-            </div>
-          </div>
+              </div>
 
-          <div class="form-group mt-3">
-            <textarea class="form-control" name="message" rows="5" placeholder="Message (Optional)"></textarea>
-            <div class="validate"></div>
-          </div>
-          <div class="mb-3">
-            <div class="loading">Loading</div>
-            <div class="error-message"></div>
-            <div class="sent-message">Your appointment request has been sent successfully. Thank you!</div>
-          </div>
-          <div class="text-center"><button type="submit">Make an Appointment</button></div>
-        </form>
+              <form action="index.php" method="post" role="form" class="php-email-form">
+                <div class="row">
+                  <div class="col-md-4 form-group">
+                    <input type="text" name="name" disabled value="<?php echo $_SESSION["nom"]; ?>" class="form-control" id="name" placeholder="Votre nom complet" data-rule="minlen:4" data-msg="Please enter at least 4 chars">
+                    <div class="validate"></div>
+                  </div>
+                  <div class="col-md-4 form-group mt-3 mt-md-0">
+                    <input type="email" class="form-control" disabled value="<?php echo $_SESSION["email"]; ?>" name="email" id="email" placeholder="Votre email" data-rule="email" data-msg="Please enter a valid email">
+                    <div class="validate"></div>
+                  </div>
+                  <div class="col-md-4 form-group mt-3 mt-md-0">
+                    <input type="tel" class="form-control" required name="tel" id="phone" placeholder="Votre numéro portable" data-rule="minlen:4" data-msg="Please enter at least 4 chars">
+                    <div class="validate"></div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-4 form-group mt-3">
+                    <input type="date" name="date" class="form-control datepicker" id="date" placeholder="Date de rendez-vous" data-rule="minlen:4" data-msg="Please enter at least 4 chars">
+                    <div class="validate"></div>
+                  </div>
+                  <div class="col-md-4 form-group mt-3">
+                    <select name="departement" id="department" class="form-select">
+                      <option value="">Selectionnez un département</option>
+                      <?php
+                      $array = runQuery("SELECT * from departement");
+                      if (!empty($array)) {
+                        foreach ($array as $k => $v) {
 
-      </div>
-    </section> End Appointment Section -->
+
+                      ?>
+                          <option value="<?php echo $array[$k]["id_dep"]; ?>"><?php echo $array[$k]["nom_dep"]; ?></option>
+                      <?php }
+                      } ?>
+                    </select>
+
+                    <div class="validate"></div>
+                  </div>
+                  <div class="col-md-4 form-group mt-3">
+                    <select name="doctor" id="doctor" class="form-select">
+                      <option value="">Selectionnez un docteur</option>
+
+                    </select>
+
+
+                    <div class="validate"></div>
+                  </div>
+                </div>
+                <script>
+                  $('#department').on('change', function() {
+                    var val = $(this).val();
+                    $.ajax({
+                      url: "PHP_SCRIPT/Utiles.php",
+                      data: {
+                        id_dept: val,
+                        query: "doctors"
+                      },
+                      type: "GET",
+                      dataType: "json",
+
+
+
+                      success: function(data) {
+                        if (data != 0) {
+                          for (var i = 0; i < data.length; i++) {
+                            $('#doctor').empty().append("<option value='" + data[i].id_doc + "'>" + data[i].nom + "</option>");
+                            $('#doctor').removeAttr("disabled")
+                            $('#confirm').removeAttr("disabled")
+
+                          }
+                        } else {
+                          $('#doctor').empty().append("<option> aucun docteur pour le moment </option>")
+                          $('#doctor').attr("disabled", "disabled")
+                          $("#confirm").attr("disabled", "disabled")
+
+                        }
+
+
+                      }
+                    });
+                  });
+                </script>
+                <?php if (isset($_POST["data"])) {
+                  echo "ok" . $_POST["data"];
+                } ?>
+
+                <div class="form-group mt-3">
+                  <textarea class="form-control" name="message" rows="5" placeholder="Message (Optionel)"></textarea>
+                  <div class="validate"></div>
+                </div>
+                <div class="mb-3">
+                  <div class="loading">Loading</div>
+                  <div class="error-message"></div>
+                </div>
+                <div class="text-center"><button id="confirm" name="confirm" type="submit">Confirmer</button></div>
+              </form>
+              <?php
+              if (isset($_POST["confirm"])) {
+                $id = $_SESSION["idUser"];
+                $nom = $_SESSION["nom"];
+                $email = $_SESSION["email"];
+                $tel = $_POST["tel"];
+                $date = $_POST["date"];
+                $dept = $_POST["departement"];
+                $doc = $_POST["doctor"];
+                $message = $_POST["message"];
+
+                $sql = "INSERT INTO `rendez_vous`(`id_pat`, `nom_pat`, `email_pat`, `tel_pat`, `date_rdv`, `id_dep`, `id_docteur`, `message`) values ($id,'$nom','$email',$tel,'$date',$dept,$doc,'$message')";
+                if (mysqli_query($connect, $sql)) {
+                  redirect("index?Done&#appointment");
+                } else {
+                  echo mysqli_error($connect);
+                }
+              } ?>
+
+            </div>
+          </section><!-- End Appointment Section -->
+      <?php }
+      } ?>
 
       <!-- ======= Departments Section ======= -->
       <section id="departments" class="departments">
@@ -1002,12 +1086,12 @@ if (!isset($_SESSION["login"]) || $role==2) {
     <div id="preloader"></div>
     <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
-    <!-- Vendor JS Files -->
     <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
-    <script src="assets/vendor/php-email-form/validate.js"></script>
+    <!--<script src="assets/vendor/php-email-form/validate.js"></script>-->
     <script src="assets/vendor/purecounter/purecounter.js"></script>
     <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+
 
     <!-- Template Main JS File -->
     <script src="assets/js/main.js"></script>

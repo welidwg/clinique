@@ -18,6 +18,7 @@ if ($_SESSION["login"] == true) {
 
     <link rel="preconnect" href="https://fonts.gstatic.com" />
     <link rel="shortcut icon" href="../assets/img/Clinique.png" />
+    <link rel="stylesheet" href="../assets/vendor/bootstrap/css/bootstrap.min.css">
 
 
 
@@ -26,12 +27,31 @@ if ($_SESSION["login"] == true) {
     <link href="../assets/css/app.css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet" />
   </head>
+  <style>
+    /* Subnav button */
+    .dropdown-container {
+      display: none;
+      background-color: #262626;
+      padding-left: 8px;
+
+
+
+    }
+
+    #submenu {
+      position: relative;
+      margin-left: 3.2em;
+      display: none;
+      transform: matrix3d(0.6);
+      transition: .3s;
+    }
+  </style>
 
   <body>
     <div class="wrapper">
       <nav id="sidebar" class="sidebar js-sidebar">
         <div class="sidebar-content js-simplebar">
-          <a class="sidebar-brand" href="index.html">
+          <a class="sidebar-brand" href="#">
             <span class="align-middle">Clinique</span>
           </a>
 
@@ -46,36 +66,90 @@ if ($_SESSION["login"] == true) {
                 <span class="align-middle">Dashboard</span>
               </a>
             </li>
+            <?php if ($role == 0) { ?>
+              <li class="sidebar-item  <?php if ($current == "userList") {
+                                          echo "active";
+                                        } ?>">
+                <a class="sidebar-link " href="<?php if ($current == "userList") {
+                                                  echo "#";
+                                                } else {
+                                                  echo "./UserList";
+                                                } ?>">
+                  <i class="align-middle" data-feather="user"></i>
+                  <span class="align-middle">Listes des utilisateurs</span>
+                </a>
 
-            <li class="sidebar-item <?php if ($current == "userList") {
-                                      echo "active";
-                                    } ?>">
-              <a class="sidebar-link" href="./UserList">
-                <i class="align-middle" data-feather="user"></i>
-                <span class="align-middle">Listes des utilisateurs</span>
-              </a>
-            </li>
 
-            <li class="sidebar-item">
-              <a class="sidebar-link" href="pages-sign-in.html">
-                <i class="align-middle" data-feather="log-in"></i>
-                <span class="align-middle">Sign In</span>
-              </a>
-            </li>
+              </li>
 
-            <li class="sidebar-item">
-              <a class="sidebar-link" href="pages-sign-up.html">
-                <i class="align-middle" data-feather="user-plus"></i>
-                <span class="align-middle">Sign Up</span>
-              </a>
-            </li>
 
-            <li class="sidebar-item ">
-              <a class="sidebar-link" href="pages-blank.html">
-                <i class="align-middle" data-feather="book"></i>
-                <span class="align-middle">Blank</span>
-              </a>
-            </li>
+
+              <li class="sidebar-item <?php if ($current == "adduser") {
+                                        echo "active";
+                                      } ?>">
+                <a class="sidebar-link" href="./AddUser">
+                  <i class="align-middle" data-feather="user-plus"></i>
+                  <span class="align-middle">Ajouter un utilisateur</span>
+                </a>
+              </li>
+            <?php } else if ($role == 1) {
+            ?>
+              <li class="sidebar-item " onclick="showStuff('submenu')">
+                <span class="sidebar-link">
+                  <i class="align-middle" data-feather="users"></i>
+                  <span class="align-middle">Gestion des stuffs</span>
+
+                </span>
+
+                <div class="sidebar-item  submenu  <?php if ($current == "AddStuff") {
+                                                      echo "active";
+                                                    }  ?>" id="submenu" style=" display:<?php if ($current == "AddStuff") {
+                                                                                          echo "block;";
+                                                                                        } else {
+                                                                                          echo "none,";
+                                                                                        } ?>">
+                  <a class="sidebar-link" href="./AddStuff">
+                    <i class="align-middle" data-feather="plus"></i>
+                    <span class="align-middle">Ajouter stuff</span>
+                  </a>
+                </div>
+
+
+              </li>
+              <li class="sidebar-item <?php if ($current == "userList") {
+                                        echo "active";
+                                      } ?>">
+                <a class="sidebar-link" href="UserList">
+                  <i class="align-middle" data-feather="book"></i>
+                  <span class="align-middle">Liste des stuffs</span>
+                </a>
+              </li>
+
+              <script>
+                function showStuff(id) {
+                  var x = document.getElementById(id);
+                  if (x.style.display === "none") {
+                    x.style.display = "block";
+                  } else {
+                    x.style.display = "none";
+                  }
+
+                }
+              </script>
+
+            <?php  } ?>
+            <?php if ($role == 3) { ?>
+
+              <li class="sidebar-item">
+                <a class="sidebar-link" href="ListeRDV">
+                  <i class="align-middle" data-feather="list"></i>
+                  <span class="align-middle">Liste des rendez-vous</span>
+                </a>
+              </li>
+            <?php } ?>
+
+
+
 
             <li class="sidebar-header">Tools & Components</li>
 
@@ -143,6 +217,7 @@ if ($_SESSION["login"] == true) {
 
           <div class="navbar-collapse collapse">
             <ul class="navbar-nav navbar-align">
+
               <li class="nav-item dropdown">
                 <a class="nav-icon dropdown-toggle" href="#" id="alertsDropdown" data-bs-toggle="dropdown">
                   <div class="position-relative">
@@ -540,6 +615,7 @@ if ($_SESSION["login"] == true) {
               });
             </script>
   </body>
+  <script src="../assets/js/jQuery.js"></script>
 
   </html>
 

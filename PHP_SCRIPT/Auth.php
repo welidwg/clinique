@@ -10,7 +10,7 @@ if (isset($_POST["SignUp"])){
     $mail=$_POST["email"];
     $username=$_POST["nomUtilisateur"];
     $date=$_POST["datenaissance"];
-    Insert_User($username,$name,$pass,$date,$mail,2,NULL);
+    Insert_User($username,$name,$pass,$date,$mail,2,NULL,NULL);
 
 }else if(isset($_POST["Login"])){
 
@@ -27,6 +27,8 @@ if (isset($_POST["SignUp"])){
         $_SESSION["nom"]=$user["Nom"];
         $_SESSION["role"]=$user["Role"];
         $_SESSION["email"]=$user["Email"];
+        $_SESSION["idUser"] = $user["userID"];
+
         if($user["Role"]==2){
            header("Location:../index");
 
