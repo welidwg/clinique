@@ -1,172 +1,318 @@
 <?php
-session_start();
 if (isset($_SESSION["role"])) {
     $role = $_SESSION["role"];
     require_once("./PHP_SCRIPT/Utiles.php");
+    $user = getuserdata($_SESSION["idUser"]);
 
-    if ($role == 2) {
-        $connect = connect_bdd();
-        $nom = GetNom();
-        $email = GetEmail();
-        $role = Role($role);
-        $username = GetUsername();
+    $connect = connect_bdd();
+    $nom = GetNom();
+    $email = GetEmail();
+    $roleUser = Role($role);
+    $username = GetUsername();
 
 
 ?>
-        <html lang="en">
+    <html lang="en">
 
 
-        <head>
-            <meta charset="UTF-8">
-            <meta http-equiv="X-UA-Compatible" content="IE=edge">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <link rel="shortcut icon" href="assets/img/Clinique.png" />
-            <link rel="stylesheet" href="assets/vendor/bootstrap/css/bootstrap.min.css">
-            <title>Profile | <?php echo $nom ?></title>
-        </head>
-        <style>
-            body {
-                background-color: #f9f9fa;
-                overflow: hidden;
-            }
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="shortcut icon" href="assets/img/Clinique.png" />
+        <link rel="stylesheet" href="assets/vendor/bootstrap/css/bootstrap.min.css">
+        <script src="assets/js/jQuery.js"></script>
 
-            .padding {
-                padding: 3rem !important
-            }
+    </head>
+    <style>
+        .form-control:focus {
+            box-shadow: none;
+            border-color: #BA68C8
+        }
 
-            .user-card-full {
-                overflow: hidden
-            }
+        .profile-button {
+            background: rgb(99, 39, 120);
+            box-shadow: none;
+            border: none
+        }
 
-            .card {
-                border-radius: 5px;
-                -webkit-box-shadow: 0 1px 20px 0 rgba(69, 90, 100, 0.08);
-                box-shadow: 0 1px 20px 0 rgba(69, 90, 100, 0.08);
-                border: none;
-                margin-bottom: 30px
-            }
+        .profile-button:hover {
+            background: #682773
+        }
 
-            .m-r-0 {
-                margin-right: 0px
-            }
+        .profile-button:focus {
+            background: #682773;
+            box-shadow: none
+        }
 
-            .m-l-0 {
-                margin-left: 0px
-            }
+        .profile-button:active {
+            background: #682773;
+            box-shadow: none
+        }
 
-            .user-card-full .user-profile {
-                border-radius: 5px 0 0 5px
-            }
+        .back:hover {
+            color: #682773;
+            cursor: pointer
+        }
 
-            .bg-c-lite-green {
-                background: -webkit-gradient(linear, left top, right top, from(#296870), to(#2fced6));
-                background: linear-gradient(to right, #2fced6, #296870)
-            }
+        .labels {
+            font-size: 13px
+        }
 
-            .user-profile {
-                padding: 20px 0
-            }
+        .labels button {
+            font-size: 11px;
+            border: none;
+            color: darkred;
+            background-color: transparent;
+        }
 
-            .card-block {
-                padding: 1.25rem
-            }
+        .add-experience:hover {
+            background: #BA68C8;
+            color: #fff;
+            cursor: pointer;
+            border: solid 1px #BA68C8
+        }
+    </style>
+    <script>
+        jQuery(function($) {
 
-            .m-b-25 {
-                margin-bottom: 25px
-            }
+            $('#confirmation').on("keyup", function() {
+                if ($(this).val() !== $("#mdp").val()) {
+                    $('#sub').attr("disabled", true);
+                    $(this).css("border", "1px solid red");
 
-            .img-radius {
-                border-radius: 5px
-            }
+                } else {
+                    $(this).css("border", "1px solid limegreen");
+                    $('#sub').removeAttr("disabled");
 
-            h6 {
-                font-size: 14px
-            }
 
-            .card .card-block p {
-                line-height: 25px
-            }
-
-            @media only screen and (min-width: 1400px) {
-                p {
-                    font-size: 14px
                 }
-            }
+            })
 
-            .card-block {
-                padding: 1.25rem
-            }
 
-            .b-b-default {
-                border-bottom: 1px solid #e0e0e0
-            }
+            $('#emailPr').on("keyup", function() {
+                $.ajax({
+                    type: 'post',
+                    url: './PHP_SCRIPT/Auth.php',
+                    data: {
+                        query: "emailProfile",
+                        data: $(this).val(),
 
-            .m-b-20 {
-                margin-bottom: 20px
-            }
+                    },
+                    success: function(data) {
+                        console.log(data)
+                        if (data == 1) {
+                            $('#emailPr').css("border", "1px solid red")
+                            alertify.error("Email déja existant");
+                            $('#sub').attr("disabled", true);
+                        } else {
+                            $('#sub').removeAttr("disabled");
+                            $('#emailPr').css("border", "1px solid limegreen")
+                        }
+                    },
+                    error: function() {
+                        alertify.error("error");
+                    }
+                });
+            })
+            $('#tel').on("keyup", function() {
+                $.ajax({
+                    type: 'post',
+                    url: './PHP_SCRIPT/middleware.php',
+                    data: {
+                        query: "tel",
+                        data: $(this).val(),
 
-            .p-b-5 {
-                padding-bottom: 5px !important
-            }
+                    },
+                    success: function(data) {
+                        console.log(data)
+                        if (data == 1) {
+                            $('#tel').css("border", "1px solid red")
+                            alertify.error("Numero de telephone déja existant");
+                            $('#sub').attr("disabled", true);
+                        } else {
+                            $('#sub').removeAttr("disabled");
+                            $('#tel').css("border", "1px solid limegreen")
+                        }
+                    },
+                    error: function() {
+                        alertify.error("error");
+                    }
+                });
+            })
 
-            .card .card-block p {
-                line-height: 25px
-            }
 
-            .m-b-10 {
-                margin-bottom: 10px
-            }
+            $("#editprofile").on("submit", function(e) {
+                e.preventDefault();
+                var form = $(this)[0];
+                var formData = new FormData(form);
+                $.ajax({
+                    type: "post",
+                    url: "./PHP_SCRIPT/middleware.php",
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(data) {
+                        if (data == 1) {
+                            alertify.success("Modification enregistrée");
+                            $("#editprofile").trigger("reset")
 
-            .text-muted {
-                color: #919aa3 !important
-            }
+                        } else {
+                            alertify.error(data)
+                        }
 
-            .b-b-default {
-                border-bottom: 1px solid #e0e0e0
-            }
+                    }
+                })
+            })
 
-            .f-w-600 {
-                font-weight: 600
-            }
 
-            .m-b-20 {
-                margin-bottom: 20px
-            }
 
-            .m-t-40 {
-                margin-top: 20px
-            }
+        })
+    </script>
 
-            .p-b-5 {
-                padding-bottom: 5px !important
-            }
+    <body>
+        <div class="container rounded bg-white mt-5 mb-5" style="zoom:0.9">
+            <div class="row" style="border-radius: 12px;box-shadow: 2px 5px 8px 2px rgba(0, 0, 0, 0.5);">
+                <div class="col-md-3 border-right">
+                    <div class="d-flex flex-column align-items-center text-center  py-5" style="padding: 10px;"><img class="rounded-circle mt-7" width="220px" id="avatarProf" src="<?php echo $_SESSION["avatar"]; ?>"><span id="nameP" class="font-weight-bold"><?php echo $_SESSION["nom"] ?></span><span class="text-black-50"><?php echo Role($_SESSION["role"]) ?></span><span> </span></div>
+                </div>
+                <div class="<?php if ($role == 2) {
+                                echo "col-md-4";
+                            } else {
+                                echo "col-md-8";
+                            } ?> border-right">
+                    <div class="p-3 py-5">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h4 class="text-right">Profile</h4>
+                        </div>
+                        <form id="editprofile" enctype="multipart/form-data">
+                            <div class="row mt-2">
+                                <div class="col-md-6"><label class="labels">Nom et prenom</label><input type="text" class="form-control" id="nomPrenom" name="name" value="<?php echo $_SESSION["nom"] ?>" required></div>
+                                <div class="col-md-6"><label class="labels">Nom d'utilisateur</label><input type="text" class="form-control" value="<?php echo $_SESSION["username"] ?>" placeholder="surname" readonly></div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-md-12"><label class="labels">Email</label><input id="emailPr" type="email" name="email" class="form-control" placeholder="" value="<?php echo $_SESSION["email"] ?>" required></div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-md-12"><label class="labels">Telephone : </label><input type="tel" id="tel" name="tel" class="form-control" placeholder="" value="<?php echo $_SESSION["tel"] ?>"></div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-md-12"><label class="labels">Votre avatar : </label><input type="file" id="" name="avatar" class="form-control" placeholder=""></div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-md-12"><label class="labels">Date de naissance</label><input type="date" id="dateP" name="datenaiss" class="form-control" placeholder="" value="<?php echo $_SESSION["datenaiss"] ?>" required></div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-md-6"><label class="labels">Nouveau Mot de passe :</label><input id="mdp" name="mdp" type="password" class="form-control" placeholder="Mot de passe" value="" min="5"></div>
+                                <div class="col-md-6"><label class="labels">Confirmer Mot de passe :</label><input id="confirmation" type="password" class="form-control" value="" placeholder="Confirmer" min="5"></div>
 
-            .m-b-10 {
-                margin-bottom: 10px
-            }
+                            </div>
+                            <input type="hidden" name="edit">
+                            <div class="mt-5 text-center"><button class="btn btn-primary profile-button" type="submit" id="sub">Enregitrer</button></div>
+                        </form>
+                    </div>
 
-            .m-t-40 {
-                margin-top: 20px
-            }
+                </div>
+                <?php if ($role == 2) { ?>
+                    <div class="col-md-4">
+                        <div class="p-3 py-5">
+                            <div class="d-flex justify-content-between align-items-center experience"><span>Liste des rendez-vous</span></div><br>
+                            <?php
+                            $id = $_SESSION['idUser'];
+                            $array = runQuery("SELECT * from rendez_vous where id_pat like $id ");
+                            $i = 0;
+                            if (!empty($array)) {
+                                foreach ($array as $k => $v) {
+                                    $i++; ?>
+                                    <div class="col-md-12">
+                                        <label class="labels"><strong>Date:</strong> <?php echo date("d-m-Y", strtotime($array[$k]["date_rdv"])) ?></label><br>
+                                        <label class="labels" for=""><strong>Docteur:</strong> <?php echo GetNameByID($array[$k]["id_docteur"]); ?></label><br>
+                                        <label class="labels" for=""><strong>Heure:</strong> <?php if ($array[$k]["temp_rdv"] == "") {
+                                                                                                    echo "non encore palinifié";
+                                                                                                } else {
+                                                                                                    echo date("H:i", strtotime($array[$k]["temp_rdv"]));
+                                                                                                } ?></label><br>
+                                        <label class="labels" for=""><strong>Status :</strong> <span style="color: <?php $status = $array[$k]["status"];
+                                                                                                                    echo StatusColor($status) ?>;"><?php
+                                                                                                                                                    echo $array[$k]["status"] ?></span> </label><br>
+                                        <label for="" class="labels"><strong>Action :</strong>
+                                            <form style="display: inline-block;" id="FormDel<?php echo $i ?>"><input type="hidden" value="<?php echo $array[$k]["id_rend"]  ?>" id="DeleteRdv<?php echo $i ?>" name="PatDelRdv"> <button type="submit"><i class="fa fa-trash"></i></button></form>
+                                        </label>
+                                        <script>
+                                            jQuery(function($) {
+                                                $('#FormDel<?php echo $i ?>').on("submit", function(e) {
+                                                    e.preventDefault();
+                                                    alertify.confirm("Confirmer la Supression", "Voulez vous supprimez ce rendez-vous ?", function() {
+                                                        $.ajax({
+                                                            url: "./PHP_SCRIPT/middleware.php",
+                                                            type: "post",
+                                                            data: {
+                                                                idrendDEL: $("#DeleteRdv<?php echo $i ?>").val()
+                                                            },
+                                                            success: function(data) {
+                                                                if (data == 1) {
+                                                                    alertify.success("Suppression réussite ! ")
 
-            .user-card-full .social-link li {
-                display: inline-block
-            }
+                                                                } else {
+                                                                    alertify.error(data)
+                                                                }
 
-            .user-card-full .social-link li a {
-                font-size: 20px;
-                margin: 0 10px 0 0;
-                -webkit-transition: all 0.3s ease-in-out;
-                transition: all 0.3s ease-in-out
-            }
-        </style>
+                                                            }
+                                                        })
+                                                    }, function() {
+                                                        alertify.error("Opération annulée")
+                                                    })
 
-        <body>
-            <div class="page-content page-container" id="page-content">
+                                                })
+                                            })
+                                        </script>
+                                    </div>
+                                    <hr>
+                            <?php }
+                            } else {
+                                echo "aucun rendez-vous pour le moment";
+                            } ?>
+                        </div>
+                    </div>
+                <?php } ?>
+
+            </div>
+            <script>
+                jQuery(function($) {
+                    function refresh() {
+                        $.ajax({
+                            url: './PHP_SCRIPT/Auth.php',
+                            type: "POST",
+                            data: {
+                                query: "refresh_Session",
+                                id: <?php echo $_SESSION["idUser"] ?>
+                            },
+                            dataType: "json",
+                            success: function(data) {
+                                $("#nomUSR").html("").append(data.nom + '<?php echo  " : " . Role($role) . "" ?>');
+                                $("#avaTop").attr("src", "" + data.avatar);
+                                $("#avatarProf").attr("src", "" + data.avatar);
+                                $("#nomPrenom").attr("value", "" + data.nom);
+                                $("#emailPr").attr("value", "" + data.email);
+                                $("#tel").attr("value", "" + data.tel);
+                                $("#dateP").attr("value", "" + data.datenaiss);
+                                $("#nameP").html("").append(data.nom)
+                            }
+                        })
+                    }
+                    setInterval(() => {
+                        refresh()
+                    }, 500);
+                })
+            </script>
+        </div>
+        </div>
+        </div>
+        <!--  <div class="page-content page-container" id="page-content">
 
                 <div class="card user-card-full" style="width: 100%;">
 
-                    <div class="row m-l-0 m-r-0" style="height: 50em;">
+                    <div class="row m-l-0 m-r-0" style="height: auto;">
 
                         <div class="col-sm-4 bg-c-lite-green user-profile" style="width: 280px;">
 
@@ -257,9 +403,9 @@ if (isset($_SESSION["role"])) {
             </div>
             </div>
             </div>
-            </div>
-        </body>
+            </div> -->
+    </body>
 
-        </html>
-<?php }
+    </html>
+<?php
 } ?>

@@ -116,13 +116,14 @@ h6 {
 --------------------------------------------------------------*/
 #topbar {
   background: #fff;
-  height: 40px;
+  height: 50px;
   font-size: 14px;
   transition: all 0.5s;
-  z-index: 996;
+  z-index: 1;
+  box-shadow: 1px 1px 4px rgb(0, 0, 0);
 }
 #topbar.topbar-scrolled {
-  top: -40px;
+  top: -50px;
 }
 #topbar .contact-info a {
   line-height: 1;
@@ -141,13 +142,7 @@ h6 {
 #topbar .contact-info i:first-child {
   margin-left: 0;
 }
-#topbar .social-links a {
-  color: #437099;
-  padding-left: 15px;
-  display: inline-block;
-  line-height: 1px;
-  transition: 0.3s;
-}
+
 #topbar .social-links a:hover {
   color: #2fced6;
 }
@@ -161,7 +156,7 @@ h6 {
 #header {
   background: #fff;
   transition: all 0.5s;
-  z-index: 997;
+  z-index: 1;
   padding: 15px 0;
   top: 40px;
   box-shadow: 0px 2px 15px rgba(25, 119, 204, 0.1);
@@ -1567,7 +1562,7 @@ section {
   /* Hidden by default */
   position: fixed;
   /* Stay in place */
-  z-index: 99999999;
+  z-index: 2;
   /* Sit on top */
   padding-top: 100px;
   /* Location of the box */
@@ -1600,7 +1595,7 @@ section {
   height: auto;
   border-radius: 20px;
   transition: 0.8s all;
-  z-index: 99;
+  z-index: 2;
 }
 ::-webkit-scrollbar {
   width: 7px;
@@ -1623,44 +1618,50 @@ section {
 
   position: relative;
   margin: 0 auto;
-
+  padding: 10px;
   width: 450px;
-  height: 500px;
-  background: #2fced6;
+  height: auto;
+  background: #34587a;
   overflow: hidden;
-  margin-top: -20px;
-  border-radius: 10px;
-  box-shadow: 5px 20px 50px #000;
+  margin-top:-70px;
+  box-shadow: 5px 5px 4px rgba(0, 0, 0, 0.4);
+  border-radius: 20px;
 }
-.modal #chk {
-  display: none;
-}
-.modal .signup {
-  position: relative;
-  width: 100%;
-  height: 100%;
-}
-.modal label {
+
+.modal h1 {
   color: #fff;
-  font-size: 2.3em;
+  font-size: 22px;
   justify-content: center;
   display: flex;
-  margin: 60px;
+  margin-top: 4px;
   font-weight: bold;
   cursor: pointer;
   transition: 0.5s ease-in-out;
 }
 .modal input {
-  width: 60%;
-  height: 20px;
+  width: 100%;
+  height: 10px;
   background: #e0dede;
   justify-content: center;
   display: flex;
-  margin: 20px auto;
-  padding: 20px;
+  margin: 10px auto;
+  padding: 15px;
   border: none;
   outline: none;
-  border-radius: 5px;
+  border-radius: 8px;
+    box-shadow: 5px 5px 4px rgba(0, 0, 0, 0.4);
+
+}
+.modal input[type="file"] {
+  font: 12px;
+
+  align-items: center;
+}
+
+.modal label {
+  width: 100%;
+  font-size: 14px;
+  color: white;
 }
 .modal button {
   width: 60%;
@@ -1680,7 +1681,7 @@ section {
   cursor: pointer;
 }
 .modal button:hover {
-  background: #34587a;
+  background: #76b5ee;
 }
 .modal .login {
   height: 460px;
@@ -1728,4 +1729,90 @@ section {
   cursor: pointer;
 }
 
+.cord {
+  font-size: 12px;
+  right: 6px;
+  position: absolute;
+  top: 4px;
+}
+.cord .items {
+  padding: 2px;
+  position: relative;
+}
 
+.cord .items input {
+  padding: 2px;
+  border-radius: 6px;
+  outline: none;
+  border: 0.2px solid #ccc;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+.cord .items button {
+  border: none;
+  padding: 4px;
+  background-color: #2fced6;
+  border-radius: 6px;
+  color: white;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+}
+.cord #items {
+  right: 90px;
+  position: absolute;
+}
+.success {
+  background-color: limegreen;
+  color: white;
+}
+.error {
+  background-color: rgba(223, 72, 72, 0.888);
+  color: white;
+}
+@keyframes hiding {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+.hideme {
+  animation: hiding 0s ease-in 5s forwards;
+}
+.alerting {
+  position: fixed;
+  left: 10px;
+  bottom: 8px;
+  width: 250px;
+  height: auto;
+  z-index: 1500;
+  padding: 1em;
+  border-radius: 12px;
+  animation: 0.5s slide-in 0.5s forwards;
+  transform: translateX(-120%);
+  text-align: center;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+@-webkit-keyframes slide {
+  100% {
+    left: 50;
+  }
+}
+@keyframes slide-in {
+  100% {
+    transform: translateX(0%);
+  }
+}
+
+@keyframes slide {
+  100% {
+    left: 0;
+  }
+}
+
+.items img {
+  width: 30px;
+  height: auto;
+  border-radius: 50%;
+}

@@ -11,6 +11,19 @@ function GetNom()
 {
     return $_SESSION["nom"];
 }
+
+function GetNameByID($id)
+{
+    $conn = connect_bdd();
+    $user = mysqli_fetch_array(mysqli_query($conn, "SELECT * from users where userID like $id"));
+    return $user["Nom"];
+}
+function getuserdata($id)
+{
+    $connect = connect_bdd();
+
+    return mysqli_fetch_array(mysqli_query($connect, "SELECT * from users where userID like $id"));
+}
 function GetEmail()
 {
     return $_SESSION["email"];
@@ -25,6 +38,25 @@ function GetUsername()
 {
     return $_SESSION["username"];
 }
+
+function getDeptName($id){
+    $connect=connect_bdd();
+    $dept = mysqli_fetch_array(mysqli_query($connect,"SELECT * from departement where id_dep=$id"));
+    return $dept["nom_dep"];
+}
+function StatusColor($status)
+{
+    switch ($status) {
+        case "confirme":
+            return "green";
+        case "en attente":
+            return "orange";
+        case "termine":
+            return "darkgrey";
+        case "depasse":
+            return "red";
+    }
+}
 function runQuery($query)
 {
     $connect = connect_bdd();
@@ -37,6 +69,32 @@ function runQuery($query)
         return $resultset;
 }
 
+function sendMail($email, $subject, $body)
+{
+    include("../Mailer/src/PHPMailer.php");
+    include("../Mailer/src/SMTP.php");
+    require("../Mailer/src/Exception.php");
+
+
+    $mail = new PHPMailer\PHPMailer\PHPMailer();
+
+    $mail->isSMTP(); // Paramétrer le Mailer pour utiliser SMTP 
+    $mail->Host = 'smtp.gmail.com'; // Spécifier le serveur SMTP
+    $mail->SMTPAuth = true; // Activer authentication SMTP
+    $mail->SMTPSecure = 'ssl';
+    $mail->Username = 'TechStoreManager@gmail.com';
+    $mail->Password = 'Barcelona1899';
+    $mail->Port = 465;
+    $mail->SetFrom("TechStoreManager@gmail.com", "Clinique");
+    $mail->AddAddress($email);
+    $mail->isHTML(true);
+    $mail->Subject = $subject;
+    $mail->Body = $body;
+    $mail->AltBody = $body;
+
+    $mail->send();
+}
+
 function Insert_User($username, $name, $pass, $date, $mail, $role, $avatar, $dept)
 {
     $conn = connect_bdd();
@@ -47,7 +105,8 @@ function Insert_User($username, $name, $pass, $date, $mail, $role, $avatar, $dep
         return false;
     } else {
 
-        if (!mysqli_query($conn, "INSERT INTO users (NomUtilisateur,Nom,MotDePasse,DateDeNaissance,Email,Role,Avatar,id_dep) values('$username','$name','$hash','$date','$mail','$role','$avatar','$dept')")) {
+
+        if (!mysqli_query($conn, "INSERT INTO users (NomUtilisateur,Nom,MotDePasse,DateDeNaissance,Email,Role,Avatar,id_dep) values('$username','$name','$hash','$date','$mail','$role','$avatar',$dept)")) {
             echo mysqli_error($conn);
         } else {
             return true;
@@ -55,11 +114,11 @@ function Insert_User($username, $name, $pass, $date, $mail, $role, $avatar, $dep
     }
 }
 
-function Login_verif($username, $pass)
+function Login_verif($email, $pass)
 {
     $conn = connect_bdd();
     $pass_h = md5($pass);
-    $sql = mysqli_fetch_array(mysqli_query($conn, "SELECT * from users where NomUtilisateur like '$username'"));
+    $sql = mysqli_fetch_array(mysqli_query($conn, "SELECT * from users where Email like '$email'"));
     if (!empty($sql)) {
         $sql2 = mysqli_fetch_array(mysqli_query($conn, "SELECT * from users where MotDePasse like '$pass_h'"));
         if (!empty($sql2)) {
