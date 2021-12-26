@@ -206,7 +206,6 @@ if ($_SESSION["login"] && $_SESSION["role"] == 0) {
                                 <option value="">Rôle d'utilisateur</option>
                                 <option value="0">Admin</option>
                                 <option value="1">Responsable Stuff</option>
-
                             </select>
                             <br>
                             <input type="hidden" name="addStuff">
