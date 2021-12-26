@@ -74,7 +74,7 @@ if (isset($_POST["addStuff"])) {
 }
 
 if (isset($_POST["query"])) {
-    if ($_POST["query"] == "username") {
+    if ($_POST["query"] == "username1") {
         $usr = $_POST["data"];
         $num = mysqli_num_rows(mysqli_query($connect, "SELECT * from users where NomUtilisateur like '$usr' "));
         echo $num;

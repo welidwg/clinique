@@ -530,7 +530,7 @@ if (!isset($_SESSION["login"]) || $role == 2) {
               <form id="inscription" enctype="multipart/form-data" method="POST">
                 <h1>Crée un compte</h1>
                 <label for=""> Nom d'utilisateur</label>
-                <input minlength="5" type="text" id="username" name="nomUtilisateur" placeholder="Nom d'utilisateur" required="">
+                <input minlength="5" type="text" id="username1" name="nomUtilisateur" placeholder="Nom d'utilisateur" required="">
                 <label for=""> Nom et prénom</label>
                 <input minlength="6" type="text" name="nom" placeholder="Votre Nom" required="">
                 <label for=""> Date de naissance</label>
@@ -544,6 +544,85 @@ if (!isset($_SESSION["login"]) || $role == 2) {
                 <input type="hidden" name="sign">
                 <button id="sub" name="SignUp">S'inscrire</button>
               </form>
+              <script>
+                jQuery(function($) {
+                  $('#username1').on("keyup", function() {
+                    $.ajax({
+                      type: 'post',
+                      url: './PHP_SCRIPT/Auth.php',
+                      data: {
+                        query: "username1",
+                        data: $(this).val()
+                      },
+                      success: function(data) {
+
+                        if (data == 1) {
+                          $('#username1').css("border", "1px solid red")
+                          alertify.error("Nom d'utilisateur déja existant");
+                          $('#sub').attr("disabled", true);
+                        } else {
+                          $('#sub').removeAttr("disabled");
+                          $('#username1').css("border", "1px solid #ccc")
+                        }
+                      },
+                      error: function() {
+                        alertify.error("error");
+                      }
+                    });
+                  });
+                  $("#inscription").on('submit', function(e) {
+                    e.preventDefault();
+                    var form = $(this)[0];
+                    var formData = new FormData(form);
+
+
+                    $.ajax({
+                      type: 'POST',
+                      url: './PHP_SCRIPT/Auth.php',
+
+                      data: formData,
+                      processData: false,
+                      contentType: false,
+                      success: function(data) {
+                        if (data == "1") {
+                          alertify.success("Inscription reussite.");
+                          $('#inscription').trigger("reset");
+                          closeForm();
+                        } else {
+                          alertify.error(data)
+                        }
+                      },
+                      error: function() {
+                        alert("error");
+                      }
+                    });
+                  });
+
+                  $('#emailI').on("keyup", function() {
+                    $.ajax({
+                      type: 'post',
+                      url: './PHP_SCRIPT/Auth.php',
+                      data: {
+                        query: "email",
+                        data: $(this).val()
+                      },
+                      success: function(data) {
+                        if (data == 1) {
+                          $('#emailI').css("border", "1px solid red")
+                          alertify.error("Email déja existant");
+                          $('#sub').attr("disabled", true);
+                        } else {
+                          $('#sub').removeAttr("disabled");
+                          $('#emailI').css("border", "1px solid #ccc")
+                        }
+                      },
+                      error: function() {
+                        alertify.error("error");
+                      }
+                    });
+                  })
+                })
+              </script>
 
             </div>
             <style>
@@ -574,80 +653,8 @@ if (!isset($_SESSION["login"]) || $role == 2) {
                     }
                   })
                 }
-                $("#inscription").on('submit', function(e) {
-                  e.preventDefault();
-                  var form = $(this)[0];
-                  var formData = new FormData(form);
 
 
-                  $.ajax({
-                    type: 'POST',
-                    url: './PHP_SCRIPT/Auth.php',
-
-                    data: formData,
-                    processData: false,
-                    contentType: false,
-                    success: function(data) {
-                      if (data == "1") {
-                        alertify.success("Inscription reussite.");
-                        $('#inscription').trigger("reset");
-                      } else {
-                        alertify.error(data)
-                      }
-                    },
-                    error: function() {
-                      alert("error");
-                    }
-                  });
-                });
-                $('#username').on("keyup", function() {
-                  $.ajax({
-                    type: 'post',
-                    url: './PHP_SCRIPT/Auth.php',
-                    data: {
-                      query: "username",
-                      data: $(this).val()
-                    },
-                    success: function(data) {
-                      if (data == 1) {
-                        $('#username').css("color", "red")
-                        alertify.error("Nom d'utilisateur déja existant");
-
-
-                        $('#sub').attr("disabled", true);
-                      } else {
-                        $('#sub').removeAttr("disabled");
-                        $('#username').css("color", "black")
-                      }
-                    },
-                    error: function() {
-                      alertify.error("error");
-                    }
-                  });
-                })
-                $('#emailI').on("keyup", function() {
-                  $.ajax({
-                    type: 'post',
-                    url: './PHP_SCRIPT/Auth.php',
-                    data: {
-                      query: "email",
-                      data: $(this).val()
-                    },
-                    success: function(data) {
-                      if (data == 1) {
-                        $('#emailI').css("color", "red")
-                        alertify.error("Email déja existant");
-                        $('#sub').attr("disabled", true);
-                      } else {
-                        $('#sub').removeAttr("disabled");
-                        $('#emailI').css("color", "black")
-                      }
-                    },
-                    error: function() {
-                      alertify.error("error");
-                    }
-                  });
-                })
 
 
 

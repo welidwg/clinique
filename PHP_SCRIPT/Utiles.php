@@ -69,7 +69,8 @@ function runQuery($query)
     if (!empty($resultset))
         return $resultset;
 }
- function generateRandomString($length = 5 ) {
+function generateRandomString($length = 5)
+{
     $characters = '0123456789abcdefghijklmnopqrs092u3tuvwxyzaskdhfhf9882323ABCDEFGHIJKLMNksadf9044OPQRSTUVWXYZ';
     $charactersLength = strlen($characters);
     $randomString = '';
@@ -94,7 +95,7 @@ function sendMail($email, $subject, $body)
     $mail->Username = 'TechStoreManager@gmail.com';
     $mail->Password = 'Barcelona1899';
     $mail->Port = 465;
-    $mail->SetFrom("TechStoreManager@gmail.com", "Clinique");
+    $mail->SetFrom("test@gmail.com", "Clinique");
     $mail->AddAddress($email);
     $mail->isHTML(true);
     $mail->Subject = $subject;
@@ -134,8 +135,7 @@ function Login_verif($email, $pass)
     $pass_h = md5($pass);
     $sql = mysqli_fetch_array(mysqli_query($conn, "SELECT * from users where Email like '$email' and MotDePasse like '$pass_h' "));
     if (!empty($sql)) {
-            return 1;
-       
+        return 1;
     } else {
         return 0;
     }
