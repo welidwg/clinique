@@ -127,7 +127,7 @@ if ($_SESSION["role"] == 0 || $_SESSION["role"] == 1) {
     if ($role == 0) {
         $array = runQuery("SELECT * from users ORDER BY role asc ");
     } else {
-        $array = runQuery("SELECT * from users where Role like 3  ORDER BY role asc ");
+        $array = runQuery("SELECT * from users where Role like 3 or Role like 4  ORDER BY role asc ");
     }
 
     ?>
@@ -182,32 +182,37 @@ if ($_SESSION["role"] == 0 || $_SESSION["role"] == 1) {
                                                 </td>
 
                                                 <td style="width: 20%;">
-                                                    <a id="openF<?php echo $i ?>" class="table-link text-info">
-                                                        <span class="fa-stack">
-                                                            <i class="fa fa-square fa-stack-2x" data-feather="edit"></i>
-                                                        </span>
+                                                    <a id="openF<?php echo $i ?>" style="text-decoration: none;" class="table-link text-info">
+                                                        <i class="fa fa-edit"></i>
                                                     </a>
                                                     <a class="table-link danger">
-                                                        <form id="deleteuser<?php echo $i ?>">
+                                                        <form style="display: inline-block;" id="deleteuser<?php echo $i ?>">
                                                             <input type="hidden" id="userID<?php echo $i ?>" value="<?php echo  $array[$k]["userID"]; ?>" name="test">
                                                             <button style="color:red">
-                                                                <span class="fa-stack"> <i class="fa fa-trash-o fa-stack-1x fa-inverse" data-feather="trash"></i></span>
+                                                                <i class="fa fa-trash"></i>
 
                                                             </button>
                                                         </form>
 
                                                         <script>
                                                             jQuery(function($) {
-
-                                                                $("#selectRole").on("change", function() {
-                                                                    if ($(this).val() == 3) {
+                                                                function verifRole() {
+                                                                    if ($("#selectRole").val() == 3) {
                                                                         $("#deptHidden").css("display", "block");
 
                                                                     } else {
                                                                         $("#deptHidden").css("display", "none");
                                                                     }
+                                                                }
+                                                                setInterval(() => {
+                                                                    verifRole();
 
-                                                                })
+                                                                }, 100);
+
+                                                                /*$("#selectRole").on("change", function() {
+
+
+                                                                })*/
                                                                 $("#openF<?php echo $i ?>").on('click', function() {
                                                                     $.ajax({
                                                                         url: "./PHP_SCRIPT/middleware.php",
@@ -242,9 +247,15 @@ if ($_SESSION["role"] == 0 || $_SESSION["role"] == 1) {
                                                                             if (data.role == 0) {
                                                                                 $("#selectRole").html('')
                                                                                 $("#selectRole").append("<option value='0'>Admin</option>")
-                                                                                $("#selectRole").append("<option value='1'>Responsable Stuff</option>");
-                                                                                $("#selectRole").append("<option value='2'>Patient</option>");
-                                                                                $("#selectRole").append("<option value='3'>Docteur</option>");
+                                                                                <?php if ($_SESSION["role"] == 0) { ?>
+                                                                                    $("#selectRole").append("<option value='1'>Responsable Stuff</option>");
+                                                                                    $("#selectRole").append("<option value='2'>Patient</option>");
+                                                                                    $("#selectRole").append("<option value='3'>Docteur</option>");
+                                                                                    $("#selectRole").append("<option value='4'>Pharmacien</option>");
+                                                                                <?php  } else { ?>
+                                                                                    $("#selectRole").append("<option value='3'>Docteur</option>");
+                                                                                    $("#selectRole").append("<option value='4'>Pharmacien</option>");
+                                                                                <?php } ?>
 
                                                                             } else if (data.role == 1) {
                                                                                 $("#selectRole").html('')
@@ -252,18 +263,34 @@ if ($_SESSION["role"] == 0 || $_SESSION["role"] == 1) {
                                                                                 $("#selectRole").append("<option value='0'>Admin</option>");
                                                                                 $("#selectRole").append("<option value='2'>Patient</option>");
                                                                                 $("#selectRole").append("<option value='3'>Docteur</option>");
+                                                                                $("#selectRole").append("<option value='4'>Pharmacien</option>");
+
                                                                             } else if (data.role == 2) {
                                                                                 $("#selectRole").html('')
                                                                                 $("#selectRole").append("<option value='2'>Patient</option>")
                                                                                 $("#selectRole").append("<option value='0'>Admin</option>");
                                                                                 $("#selectRole").append("<option value='1'>Responsable Stuff</option>");
                                                                                 $("#selectRole").append("<option value='3'>Docteur</option>");
+                                                                                $("#selectRole").append("<option value='4'>Pharmacien</option>");
                                                                             } else if (data.role == 3) {
                                                                                 $("#selectRole").html('')
+
                                                                                 $("#selectRole").append("<option value='3'>Docteur</option>")
-                                                                                $("#selectRole").append("<option value='0'>Admin</option>");
-                                                                                $("#selectRole").append("<option value='1'>Responsable Stuff</option>");
-                                                                                $("#selectRole").append("<option value='2'>Patient</option>");
+                                                                                <?php if ($_SESSION["role"] == 0) { ?>
+                                                                                    $("#selectRole").append("<option value='0'>Admin</option>");
+                                                                                    $("#selectRole").append("<option value='1'>Responsable Stuff</option>");
+                                                                                    $("#selectRole").append("<option value='2'>Patient</option>");
+                                                                                <?php } ?>
+                                                                                $("#selectRole").append("<option value='4'>Pharmacien</option>");
+                                                                            } else if (data.role == 4) {
+                                                                                $("#selectRole").html('')
+                                                                                $("#selectRole").append("<option value='4'>Pharmacien</option>");
+                                                                                $("#selectRole").append("<option value='3'>Docteur</option>")
+                                                                                <?php if ($_SESSION["role"] == 0) { ?>
+                                                                                    $("#selectRole").append("<option value='0'>Admin</option>");
+                                                                                    $("#selectRole").append("<option value='1'>Responsable Stuff</option>");
+                                                                                    $("#selectRole").append("<option value='2'>Patient</option>");
+                                                                                <?php } ?>
                                                                             }
 
 
@@ -343,11 +370,11 @@ if ($_SESSION["role"] == 0 || $_SESSION["role"] == 1) {
                                 <form id="modification">
                                     <h1>Modifier utilisateur</h1>
                                     <label for=""> Nom et prénom</label>
-                                    <input id="nomE" type="text" name="nom" required="">
+                                    <input minlength="5" id="nomE" type="text" name="nom" required="">
                                     <label for=""> Date de naissance</label>
-                                    <input type="date" id="date" name="datenaiss" placeholder="Date De naissance" required="">
+                                    <input max="1999-12-31" type="date" id="date" name="datenaiss" placeholder="Date De naissance" required="">
                                     <label for=""> Email</label>
-                                    <input type="email" name="email" placeholder="Email" required="" id="email">
+                                    <input pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" type="email" name="email" placeholder="Email" required="" id="email">
                                     <label for=""> Rôle :</label>
                                     <select name="role" id="selectRole" class="form-select">
                                         <option id="role"></option>

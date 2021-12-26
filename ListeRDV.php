@@ -195,6 +195,7 @@ if ($_SESSION["login"]) {
 
                                                     <a class="table-link text-info">
                                                         <?php if ($array[$k]["status"] != "confirme" && $array[$k]["status"] != "depasse") { ?>
+                                                            <?php if($array[$k]["status"]!='termine'){ ?>
                                                             <form id="Confirm<?php echo $i ?>">
                                                                 <input id="ConfID<?php echo $i ?>" type="hidden" name="id_rendC" value="<?php echo $array[$k]["id_rend"];  ?>">
                                                                 <input type="hidden" name="" id="emailPat<?php echo $i; ?>" value="<?php echo $array[$k]["email_pat"];  ?>">
@@ -202,6 +203,7 @@ if ($_SESSION["login"]) {
                                                                     <i class="fa fa-check"></i>
                                                                 </button>
                                                             </form>
+                                                            <?php }?>
                                                             <script>
                                                                 jQuery(function($) {
                                                                     $("#Confirm<?php echo $i ?>").on('submit', function(e) {
@@ -229,6 +231,9 @@ if ($_SESSION["login"]) {
                                                                                         success: function(data) {
                                                                                             if (data == 1) {
                                                                                                 alertify.success("Confirmation réussite");
+                                                                                                setInterval(() => {
+                                                                                                    window.location.reload()
+                                                                                                }, 500);
                                                                                             } else if (data == 2) {
 
                                                                                                 alertify.error("tu as déja un rendez vous dans cette heure!");
@@ -274,6 +279,9 @@ if ($_SESSION["login"]) {
                                                                                             success: function(data) {
                                                                                                 if (data == 1) {
                                                                                                     alertify.success("Opération effectuée avec succées! ");
+                                                                                                    setInterval(() => {
+                                                                                                        window.location.reload()
+                                                                                                    }, 500);
 
                                                                                                 } else {
                                                                                                     alertify.error(data);
@@ -319,6 +327,9 @@ if ($_SESSION["login"]) {
                                                                                 data: $("#delRdv<?php echo $i ?>").serialize(),
                                                                                 success: function(data) {
                                                                                     alertify.success(data);
+                                                                                    setInterval(() => {
+                                                                                        window.location.reload()
+                                                                                    }, 500);
                                                                                 }
                                                                             })
                                                                         }, function() {

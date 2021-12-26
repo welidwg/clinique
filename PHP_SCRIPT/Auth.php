@@ -25,7 +25,7 @@ if (isset($_POST["sign"])) {
     if (Insert_User($username, $name, $pass, $date, $mail, 2, $destination1, 0)) {
         echo "1";
     } else {
-        mysqli_error($connect);
+        echo mysqli_error($connect);
     }
 } else if (isset($_POST["LogForm"])) {
 
@@ -48,12 +48,28 @@ if (isset($_POST["sign"])) {
         $_SESSION["tel"] = $user["tel"];
 
         echo "ok";
-    } elseif ($verif == 11) {
+    } elseif ($verif == 0) {
         // redirect("../index?notfound");
         echo "notfound";
+    }
+}
+
+if (isset($_POST["addStuff"])) {
+    $username = $_POST["username"];
+    $email = $_POST["email"];
+    $name = $_POST['nom'];
+    $date = $_POST["date"];
+    $role = $_POST["role"];
+    if (isset($_POST["dept"]) && $_POST["dept"]  != "") {
+        $dept = $_POST["dept"];
     } else {
-        // redirect("../index?WrongPass");
-        echo "pass";
+        $dept = 0;
+    }
+    $mdp = md5($_POST["pswd"]);
+    if (!Insert_User($username, $name, $mdp, $date, $email, $role, NULL, $dept)) {
+        echo mysqli_error($connect);
+    } else {
+        echo  1;
     }
 }
 
@@ -102,6 +118,24 @@ if (isset($_POST["query"])) {
                 "tel" => $_SESSION["tel"], "avatar" => $_SESSION["avatar"]
             );
             echo json_encode($arr);
+        }
+    } else if ($_POST["query"] == "Forget") {
+        $email = $_POST["email"];
+        $user = mysqli_fetch_array(mysqli_query($connect, "SELECT * from users where Email like '$email'"));
+        $code = generateRandomString();
+        $nom = $user["Nom"];
+        $subjet = mysqli_real_escape_string($connect, "Recuperation de mot de passe");
+        $body = "Salut Mr/Madame <strong> " . $nom . "</strong><br>
+       Votre code de confirmation c'est : <strong>" . $code . "</strong>";
+        sendMail($email, $subjet, $body);
+        echo $code;
+    } else if ($_POST["query"] == "ChangePass") {
+        $email = $_POST["email"];
+        $mdp = md5($_POST["data"]);
+        if (mysqli_query($connect, "UPDATE users SET MotDePasse='$mdp' where Email like '$email'")) {
+            echo 1;
+        } else {
+            echo mysqli_error($connect);
         }
     }
 }

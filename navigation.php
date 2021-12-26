@@ -35,7 +35,7 @@ if ($_SESSION["login"] == true) {
     <link rel="stylesheet" href="assets/vendor/bootstrap/css/bootstrap.min.css">
     <script src="./bootbox/bootbox.min.js"></script>
     <script src="./bootbox/bootbox.locales.min.js"></script>
-    
+
     <script>
       alertify.defaults.transition = "slide";
       alertify.defaults.theme.ok = "btn btn-primary";
@@ -111,7 +111,6 @@ if ($_SESSION["login"] == true) {
               </li>
 
 
-
               <li class="sidebar-item <?php if ($current == "adduser") {
                                         echo "active";
                                       } ?>">
@@ -139,35 +138,27 @@ if ($_SESSION["login"] == true) {
                 </a>
               </li>
 
+
+
             <?php } else if ($role == 1) {
             ?>
-              <li class="sidebar-item " onclick="showStuff('submenu')">
-                <span class="sidebar-link">
-                  <i class="align-middle" data-feather="users"></i>
-                  <span class="align-middle">Gestion des stuffs</span>
-
-                </span>
-
-                <div class="sidebar-item  submenu  <?php if ($current == "AddStuff") {
-                                                      echo "active";
-                                                    }  ?>" id="submenu" style=" display:<?php if ($current == "AddStuff") {
-                                                                                          echo "block;";
-                                                                                        } else {
-                                                                                          echo "none,";
-                                                                                        } ?>">
-                  <a class="sidebar-link" href="./AddStuff">
-                    <i class="align-middle" data-feather="plus"></i>
-                    <span class="align-middle">Ajouter stuff</span>
-                  </a>
-                </div>
-
-
+              <li class="sidebar-header">Gestion des Stuffs</li>
+              <li class="sidebar-item <?php if ($current == "departList") {
+                                        echo "AddStuff";
+                                      } ?>">
+                <a class="sidebar-link" href="./AddStuff">
+                  <i class="fa fa-user-plus align-middle" data-feather=""></i>
+                  <span class="align-middle">Ajouter un stuff</span>
+                </a>
               </li>
+
+
+
               <li class="sidebar-item <?php if ($current == "userList") {
                                         echo "active";
                                       } ?>">
                 <a class="sidebar-link" href="UserList">
-                  <i class="align-middle" data-feather="book"></i>
+                  <i class="fa fa-users align-middle"></i>
                   <span class="align-middle">Liste des stuffs</span>
                 </a>
               </li>
@@ -184,8 +175,8 @@ if ($_SESSION["login"] == true) {
                 }
               </script>
 
-            <?php  } ?>
-            <?php if ($role == 3) { ?>
+            <?php  } else if ($role == 3) { ?>
+              <li class="sidebar-header">Rendez-vous</li>
 
               <li class="sidebar-item <?php if ($current == "ListeRDV") {
                                         echo "active";
@@ -195,63 +186,42 @@ if ($_SESSION["login"] == true) {
                   <span class="align-middle">Liste des rendez-vous</span>
                 </a>
               </li>
+              <li class="sidebar-header">Pharmacie</li>
+
+              <li class="sidebar-item <?php if ($current == "MedList") {
+                                        echo "active";
+                                      } ?>">
+
+                <a class="sidebar-link" href="./MedList">
+                  <i class="fa fa-pills align-middle" data-feather=""></i>
+                  <span class="align-middle">Liste des médicaments</span>
+                </a>
+              </li>
+            <?php } else if ($role == 4) {
+            ?>
+              <li class="sidebar-header">Gestion de pharmacie</li>
+              <li class="sidebar-item <?php if ($current == "AddMed") {
+                                        echo "active";
+                                      } ?>">
+                <a class="sidebar-link" href="./AddMed">
+                  <i class="fa fa-prescription-bottle-alt align-middle" data-feather=""></i>
+                  <span class="align-middle">Ajouter médicament</span>
+                </a>
+              </li>
+              <li class="sidebar-item <?php if ($current == "MedList") {
+                                        echo "active";
+                                      } ?>">
+                <a class="sidebar-link" href="./MedList">
+                  <i class="fa fa-pills align-middle" data-feather=""></i>
+                  <span class="align-middle">Liste des médicaments</span>
+                </a>
+              </li>
             <?php } ?>
 
 
 
 
-            <li class="sidebar-header">Tools & Components</li>
 
-            <li class="sidebar-item">
-              <a class="sidebar-link" href="ui-buttons.html">
-                <i class="align-middle" data-feather="square"></i>
-                <span class="align-middle">Buttons</span>
-              </a>
-            </li>
-
-            <li class="sidebar-item">
-              <a class="sidebar-link" href="ui-forms.html">
-                <i class="align-middle" data-feather="check-square"></i>
-                <span class="align-middle">Forms</span>
-              </a>
-            </li>
-
-            <li class="sidebar-item">
-              <a class="sidebar-link" href="ui-cards.html">
-                <i class="align-middle" data-feather="grid"></i>
-                <span class="align-middle">Cards</span>
-              </a>
-            </li>
-
-            <li class="sidebar-item">
-              <a class="sidebar-link" href="ui-typography.html">
-                <i class="align-middle" data-feather="align-left"></i>
-                <span class="align-middle">Typography</span>
-              </a>
-            </li>
-
-            <li class="sidebar-item">
-              <a class="sidebar-link" href="icons-feather.html">
-                <i class="align-middle" data-feather="coffee"></i>
-                <span class="align-middle">Icons</span>
-              </a>
-            </li>
-
-            <li class="sidebar-header">Plugins & Addons</li>
-
-            <li class="sidebar-item">
-              <a class="sidebar-link" href="charts-chartjs.html">
-                <i class="align-middle" data-feather="bar-chart-2"></i>
-                <span class="align-middle">Charts</span>
-              </a>
-            </li>
-
-            <li class="sidebar-item">
-              <a class="sidebar-link" href="maps-google.html">
-                <i class="align-middle" data-feather="map"></i>
-                <span class="align-middle">Maps</span>
-              </a>
-            </li>
           </ul>
 
 
@@ -267,7 +237,7 @@ if ($_SESSION["login"] == true) {
           <div class="navbar-collapse collapse">
             <ul class="navbar-nav navbar-align">
 
-              <li class="nav-item dropdown">
+              <!-- <li class="nav-item dropdown">
                 <a class="nav-icon dropdown-toggle" href="#" id="alertsDropdown" data-bs-toggle="dropdown">
                   <div class="position-relative">
                     <i class="far fa-bell align-middle" data-feather=""></i>
@@ -409,7 +379,7 @@ if ($_SESSION["login"] == true) {
                     <a href="#" class="text-muted">Show all messages</a>
                   </div>
                 </div>
-              </li>
+              </li>-->
               <li class="nav-item dropdown">
                 <a class="nav-icon dropdown-toggle d-inline-block d-sm-none" href="#" data-bs-toggle="dropdown">
                   <i class="align-middle" data-feather="settings"></i>
@@ -422,15 +392,10 @@ if ($_SESSION["login"] == true) {
                 <div class="dropdown-menu dropdown-menu-end">
                   <a class="dropdown-item" href="./Profile"><i class="align-middle me-1" data-feather="user"></i>
                     Profile</a>
-                  <a class="dropdown-item" href="#"><i class="align-middle me-1" data-feather="pie-chart"></i>
-                    Analytics</a>
+                
+                
                   <div class="dropdown-divider"></div>
-                  <a class="dropdown-item" href="index.html"><i class="align-middle me-1" data-feather="settings"></i>
-                    Settings & Privacy</a>
-                  <a class="dropdown-item" href="#"><i class="align-middle me-1" data-feather="help-circle"></i>
-                    Help Center</a>
-                  <div class="dropdown-divider"></div>
-                  <a class="dropdown-item" href="./PHP_SCRIPT/Utiles.php?Logout">Déconnecter</a>
+                  <a class="dropdown-item" href="./PHP_SCRIPT/Utiles.php?Logout">Déconnecter <i class="fa fa-sign-out-alt"></i></a>
                 </div>
               </li>
             </ul>

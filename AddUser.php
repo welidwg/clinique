@@ -115,6 +115,33 @@ if ($_SESSION["login"] && $_SESSION["role"] == 0) {
                             jQuery(function($) {
                                 $("#adduserform").on("submit", function(e) {
                                     e.preventDefault();
+                                    if ($("#role").val() == "") {
+                                        alertify.error("vous devez choisir un rôle");
+                                        $("#role").css("border", "1px solid red");
+                                    } else {
+                                        $("#role").css("border", "1px solid #css");
+                                        $.ajax({
+                                            type: "post",
+                                            url: "PHP_SCRIPT/Auth.php",
+                                            data: $(this).serialize(),
+                                            success: function(data) {
+                                                if (data == 1) {
+                                                    alertify.success("Ajouté avec succées");
+                                                } else {
+                                                    alertify.error(data);
+
+                                                }
+
+                                            }
+                                        })
+
+
+
+                                    }
+
+                                })
+                                $("#adduserform").on("submit", function(e) {
+                                    e.preventDefault();
 
                                 })
 
@@ -171,18 +198,20 @@ if ($_SESSION["login"] && $_SESSION["role"] == 0) {
 
                             <input type="text" id="username" name="username" class="form-control" placeholder="Nom d'utilisateur" required> <br>
 
-                            <input type="email" id="mail" name="email" class="form-control" placeholder="Email d'utilisateur" required> <br>
+                            <input type="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" id="mail" name="email" class="form-control" placeholder="Email d'utilisateur" required> <br>
 
-                            <input type="date" name="date" class="form-control" placeholder="Date naissance" required> <br>
+                            <input type="date" max="1999-12-31" name="date" class="form-control" placeholder="Date naissance" required> <br>
 
-                            <select name="role" id="" class="form-control">
+                            <select name="role" id="role" class="form-control">
                                 <option value="">Rôle d'utilisateur</option>
                                 <option value="0">Admin</option>
                                 <option value="1">Responsable Stuff</option>
 
                             </select>
                             <br>
-                            <input type="password" name="pswd" class="form-control" placeholder="Mot de passe initial" required> <br>
+                            <input type="hidden" name="addStuff">
+
+                            <input minlength="5" type="password" name="pswd" class="form-control" placeholder="Mot de passe initial" required> <br>
                             <br>
                             <input id="submit" type="submit" name="ajouter" value="Ajouter" class="form-control" placeholder="Date naissance"> <br>
 

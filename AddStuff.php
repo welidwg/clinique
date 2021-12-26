@@ -15,8 +15,8 @@ if ($_SESSION["login"]) {
         <style>
             #adduserform {}
 
-            #adduserform input,
-            #adduserform select {
+            #addStuffForm input,
+            #addStuffForm select {
                 width: 50%;
                 margin: 0 auto;
             }
@@ -112,36 +112,25 @@ if ($_SESSION["login"]) {
                         <h5 class="card-title" style="text-align: center;">Ajouter stuff</h5>
                     </div>
                     <div class="card-body">
-                        <div class="alert alert-danger" id="errors">
-                            <h6 id="usernameErr" style="display: none;">Nom d'utilisateur déja existant ! </h6>
-                            <h6 id="mailErr" style="display: none;">Email déja existant ! </h6>
 
-                        </div>
-                        <div class="alert alert-success" id="success" <?php if (isset($_GET["Done"])) {
-                                                                            echo "style='display:block'";
-                                                                        } ?>>
-                            <p id="Done">Utilisateur est ajouté avec succées! </p>
 
-                        </div>
-                        <form id="adduserform" action="" method="POST">
+                        <form id="addStuffForm" action="" method="POST">
 
-                            <input type="text" name="nom" class="form-control" placeholder="Nom et Prénom " required><br>
+                            <input minlength="5" type="text" name="nom" class="form-control" placeholder="Nom et Prénom " required><br>
 
-                            <input type="text" id="username" name="username" class="form-control" placeholder="Nom d'utilisateur" required> <br>
+                            <input minlength="5" type="text" id="username" name="username" class="form-control" placeholder="Nom d'utilisateur" required> <br>
 
-                            <input type="email" id="mail" name="email" class="form-control" placeholder="Email d'utilisateur" required> <br>
+                            <input pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" type="email" id="mail" name="email" class="form-control" placeholder="Email d'utilisateur" required> <br>
 
-                            <input type="date" name="date" class="form-control" placeholder="Date naissance" required> <br>
+                            <input max="1999-12-31" type="date" name="date" class="form-control" placeholder="Date naissance" required> <br>
 
-                            <select name="role" id="" class="form-control">
-                                <option value="">Rôle de stuff</option>
+                            <select name="role" id="role" class="form-control">
+                                <option value="">Role : </option>
                                 <option value="3">Docteur</option>
-                                <option value="4">Infirmier</option>
-
+                                <option value="4">Pharmacien</option>
                             </select>
                             <br>
-                            <select name="dept" id="" class="form-control">
-                                <option value="">Choisissez le departement</option>
+                            <select style="display: none;" name="dept" id="dept" class="form-control">
                                 <?php $array = runQuery("SELECT * from departement");
                                 if (!empty($array)) {
                                     foreach ($array as $k => $v) { ?>
@@ -150,9 +139,9 @@ if ($_SESSION["login"]) {
                                 } ?>
                             </select>
                             <br>
-                            <input type="password" name="pswd" class="form-control" placeholder="Mot de passe initial" required> <br>
-                            <br>
-                            <input id="submit" type="submit" name="ajouter" value="Ajouter" class="form-control" placeholder="Date naissance"> <br>
+                            <input type="hidden" name="addStuff">
+                            <input minlength="5" type="password" name="pswd" class="form-control" placeholder="Mot de passe initial" required> <br>
+                            <input id="submit" type="submit" name="add" value="Ajouter" class="form-control"> <br>
 
 
 
@@ -162,36 +151,94 @@ if ($_SESSION["login"]) {
 
 
                         </form>
+                        <script>
+                            jQuery(function($) {
+                                $("#role").on("change", function() {
+                                    if ($(this).val() == 3) {
+                                        $("#dept").css("display", "block");
+                                    } else {
+                                        $("#dept").css("display", "none");
+
+                                    }
+                                })
+                                $('#mail').on("keyup", function() {
+                                    $.ajax({
+                                        url: "PHP_SCRIPT/Auth.php",
+                                        type: "post",
+                                        data: {
+                                            query: "email",
+                                            data: $(this).val(),
+                                        },
+                                        success: function(data) {
+                                            if (data == 1) {
+                                                alertify.error("Email déja utilisé!");
+                                                $("#mail").css("border", "1px solid red");
+                                                $('#submit').attr("disabled", true);
+
+                                            } else if (data == 0) {
+                                                $("#mail").css("border", "1px solid #ccc");
+                                                $('#submit').removeAttr("disabled");
+                                            }
+                                        }
+                                    })
+                                })
+                                $('#username').on("keyup", function() {
+                                    $.ajax({
+                                        url: "PHP_SCRIPT/Auth.php",
+                                        type: "post",
+                                        data: {
+                                            query: "username",
+                                            data: $(this).val(),
+                                        },
+                                        success: function(data) {
+                                            if (data == 1) {
+                                                alertify.error("Nom d''utilisateur déja utilisé!");
+                                                $("#username").css("border", "1px solid red");
+                                                $('#submit').attr("disabled", true);
+
+                                            } else if (data == 0) {
+                                                $("#username").css("border", "1px solid #ccc");
+                                                $('#submit').removeAttr("disabled");
+                                            }
+                                        }
+                                    })
+                                })
+
+                                $("#addStuffForm").on("submit", function(e) {
+                                    e.preventDefault();
+                                    if ($("#role").val() == "") {
+                                        alertify.error("vous devez choisir un rôle");
+                                        $("#role").css("border", "1px solid red");
+                                    } else {
+                                        $("#role").css("border", "1px solid #css");
+                                        $.ajax({
+                                            type: "post",
+                                            url: "PHP_SCRIPT/Auth.php",
+                                            data: $(this).serialize(),
+                                            success: function(data) {
+                                                if (data == 1) {
+                                                    alertify.success("Ajouté avec succées");
+                                                } else {
+                                                    alertify.error(data);
+
+                                                }
+
+                                            }
+                                        })
+
+
+
+                                    }
+
+                                })
+                            })
+                        </script>
 
 
                     </div>
                 </div>
             </div>
-            <?php if (isset($_POST["ajouter"])) {
-               
-                $username = $_POST["username"];
-                $verif_username = verify_user('NomUtilisateur', $username);
-                if ($verif_username) {
-                    $email = $_POST["email"];
-                    $verif_mail = verify_user('Email', $email);
-                    if ($verif_mail) {
-                        $name = $_POST['nom'];
 
-                        $date = $_POST["date"];
-
-                        $role = $_POST["role"];
-                        $dept=$_POST["dept"];
-                        $mdp = md5($_POST["pswd"]);
-
-                        if (!Insert_User($username, $name, $mdp, $date, $email, $role, NULL,$dept)) {
-                            echo mysqli_error($connect);
-                            echo  redirect("AddStuff?ErreurInconnue");
-                        } else {
-                            echo  redirect("AddStuff?Done");
-                        }
-                    }
-                }
-            } ?>
 
 
 

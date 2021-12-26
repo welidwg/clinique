@@ -1,20 +1,18 @@
 <?php
-$current = "adddept";
+$current = "AddMed";
 
 require_once("./navigation.php");
 require_once("./PHP_SCRIPT/Utiles.php");
 $connect = connect_bdd();
 
-if ($_SESSION["login"] && $_SESSION["role"] == 0) {
+if ($_SESSION["login"] && $_SESSION["role"] == 4) {
     $role = $_SESSION["role"];
 
 
 ?>
     <style>
-        #adduserform {}
-
-        #addDeptform input,
-        #addDeptform textarea {
+        #addMedform input,
+        #addMedform textarea {
             width: 50%;
             margin: 0 auto;
         }
@@ -91,12 +89,12 @@ if ($_SESSION["login"] && $_SESSION["role"] == 0) {
 
                 <div class="card-header">
 
-                    <h5 class="card-title" style="text-align: center;">Ajouter un departement</h5>
+                    <h5 class="card-title" style="text-align: center;">Ajouter Médicament</h5>
                 </div>
                 <div class="card-body">
                     <script>
                         jQuery(function($) {
-                            $("#addDeptform").on("submit", function(e) {
+                            $("#addMedform").on("submit", function(e) {
                                 e.preventDefault();
                                 var form = $(this)[0];
                                 var formData = new FormData(form);
@@ -108,8 +106,8 @@ if ($_SESSION["login"] && $_SESSION["role"] == 0) {
                                     contentType: false,
                                     success: function(data) {
                                         if (data == 1) {
-                                            alertify.success("Modification enregistrée");
-                                            $("#addDeptform").trigger("reset")
+                                            alertify.success("Akout avec succées");
+                                            $("#addMedform").trigger("reset")
 
                                         } else {
                                             alertify.error(data)
@@ -123,22 +121,23 @@ if ($_SESSION["login"] && $_SESSION["role"] == 0) {
                             })
 
 
-                            $('#nom').on("keyup", function() {
+                           
+                            $('#code').on("keyup", function() {
                                 $.ajax({
                                     url: "PHP_SCRIPT/middleware.php",
                                     type: "post",
                                     data: {
-                                        query: "deptnom",
+                                        query: "MedCode",
                                         data: $(this).val(),
                                     },
                                     success: function(data) {
                                         if (data == 1) {
-                                            alertify.error("Département déja existante!");
-                                            $("#nom").css("border", "1px solid red");
+                                            alertify.error("Code déja existante!");
+                                            $("#code").css("border", "1px solid red");
                                             $('#submit').attr("disabled", true);
 
                                         } else if (data == 0) {
-                                            $("#nom").css("border", "1px solid #ccc");
+                                            $("#code").css("border", "1px solid #ccc");
                                             $('#submit').removeAttr("disabled");
                                         }
                                     }
@@ -148,15 +147,13 @@ if ($_SESSION["login"] && $_SESSION["role"] == 0) {
                         })
                     </script>
 
-                    <form id="addDeptform" enctype="multipart/form-data">
+                    <form id="addMedform" enctype="multipart/form-data">
+                        <input minlength="4" id="code" type="text" name="code" class="form-control" placeholder="Code de medicament " required><br>
 
-                        <input id="nom" minlength="5" type="text" name="nom" class="form-control" placeholder="Nom de departement " required><br>
-
-                        <textarea minlength="10" type="text" id="desc" name="desc" class="form-control" placeholder="Description" required></textarea> <br>
-
-                        <input type="file" id="pic" name="pic" class="form-control" placeholder="" required> <br>
-                        <input type="hidden" name="ajouterDept">
-                        <input id="submit" type="submit" name="add" value="Ajouter" class="form-control" placeholder="Date naissance"> <br>
+                        <input minlength="5" id="nom" type="text" name="nom" class="form-control" placeholder="Nom de medicament " required><br>
+                        <input  type="number" min="1" class="form-control" name="stock" placeholder="Stock">
+                        <input type="hidden" name="ajouterMed"><br>
+                        <input  id="submit" type="submit" name="add" value="Ajouter" class="form-control" placeholder="Date naissance"> <br>
 
                     </form>
 

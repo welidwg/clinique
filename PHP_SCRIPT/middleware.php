@@ -71,7 +71,7 @@
             $email = $_POST["email"];
             $date = $_POST["datenaiss"];
             $role = $_POST["role"];
-            if (isset($_POST["departement"]) && $_POST["departement"] != "") {
+            if ($role == 3) {
                 $dept = $_POST["departement"];
             } else {
                 $dept = 0;
@@ -101,6 +101,24 @@
             }
 
             if (mysqli_query($connect, "UPDATE departement SET nom_dep='$nom',description='$desc',image='$destination1' where id_dep=$id")) {
+                echo 1;
+            } else {
+                echo mysqli_error($connect);
+            }
+        } else if (isset($_POST["idMedEdit"])) {
+            $nom = $_POST["nom"];
+            $action = $_POST["action"];
+            $origStock = $_POST["stockH"];
+            $stock = $_POST["stock"];
+            $id=$_POST["idMedEdit"];
+            if ($action == 0) {
+                $newStock = $origStock - $stock;
+            } else if ($action == 1) {
+                $newStock = $origStock + $stock;
+            } else {
+                $newStock = $origStock;
+            }
+            if (mysqli_query($connect, "UPDATE pharmacie set nom='$nom',stock='$newStock' where id=$id ")) {
                 echo 1;
             } else {
                 echo mysqli_error($connect);
@@ -186,6 +204,25 @@
                 $nom = $_POST["data"];
                 $num = mysqli_num_rows(mysqli_query($connect, "SELECT * from departement where nom_dep like '$nom'"));
                 echo $num;
+            } else if ($_POST["query"] == "MedCode") {
+                $code = $_POST["data"];
+                $num = mysqli_num_rows(mysqli_query($connect, "SELECT * from pharmacie where code like '$code'"));
+                echo $num;
+            } else if ($_POST["query"] == "MedDelete") {
+                $id = $_POST["id"];
+                if (mysqli_query($connect, "DELETE FROM pharmacie where id=$id")) {
+                    echo 1;
+                } else {
+                    echo mysqli_error($connect);
+                }
+            } else if ($_POST["query"] == "editMed") {
+                $id = $_POST["id"];
+                $nom = mysqli_fetch_array(mysqli_query($connect, "SELECT * from pharmacie where id = $id"));
+                $arr = array(
+                    "code" => $nom["code"], "id" => $nom["id"], "nom" => $nom["nom"],
+                    "stock" => $nom["stock"]
+                );
+                echo json_encode($arr);
             }
         }
 
@@ -248,6 +285,15 @@
             $destination1 = "uploads/" . $v3 . $Img;
             move_uploaded_file($_FILES["pic"]["tmp_name"], $destination);
             if (mysqli_query($connect, "INSERT INTO  departement (nom_dep,description,image) values('$nom','$desc','$destination1')")) {
+                echo 1;
+            } else {
+                echo mysqli_error($connect);
+            }
+        } else if (isset($_POST["ajouterMed"])) {
+            $code = $_POST["code"];
+            $nom = $_POST["nom"];
+            $stock = $_POST["stock"];
+            if (mysqli_query($connect, "INSERT INTO pharmacie (code,nom,stock) value('$code','$nom',$stock)")) {
                 echo 1;
             } else {
                 echo mysqli_error($connect);

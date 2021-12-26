@@ -39,9 +39,10 @@ function GetUsername()
     return $_SESSION["username"];
 }
 
-function getDeptName($id){
-    $connect=connect_bdd();
-    $dept = mysqli_fetch_array(mysqli_query($connect,"SELECT * from departement where id_dep=$id"));
+function getDeptName($id)
+{
+    $connect = connect_bdd();
+    $dept = mysqli_fetch_array(mysqli_query($connect, "SELECT * from departement where id_dep=$id"));
     return $dept["nom_dep"];
 }
 function StatusColor($status)
@@ -68,7 +69,15 @@ function runQuery($query)
     if (!empty($resultset))
         return $resultset;
 }
-
+ function generateRandomString($length = 5 ) {
+    $characters = '0123456789abcdefghijklmnopqrs092u3tuvwxyzaskdhfhf9882323ABCDEFGHIJKLMNksadf9044OPQRSTUVWXYZ';
+    $charactersLength = strlen($characters);
+    $randomString = '';
+    for ($i = 0; $i < $length; $i++) {
+        $randomString .= $characters[rand(0, $charactersLength - 1)];
+    }
+    return $randomString;
+}
 function sendMail($email, $subject, $body)
 {
     include("../Mailer/src/PHPMailer.php");
@@ -99,6 +108,11 @@ function Insert_User($username, $name, $pass, $date, $mail, $role, $avatar, $dep
 {
     $conn = connect_bdd();
     $hash = md5($pass);
+    if ($avatar == NULL) {
+        $pic = "assets/images/avatar.png";
+    } else {
+        $pic = $avatar;
+    }
     $test_name = mysqli_fetch_array(mysqli_query($conn, "SELECT * from users where NomUtilisateur like '$username'"));
     $test_mail = mysqli_fetch_array(mysqli_query($conn, "SELECT * from users where Email like '$mail'"));
     if (!empty($test_name) || !empty($test_mail)) {
@@ -106,7 +120,7 @@ function Insert_User($username, $name, $pass, $date, $mail, $role, $avatar, $dep
     } else {
 
 
-        if (!mysqli_query($conn, "INSERT INTO users (NomUtilisateur,Nom,MotDePasse,DateDeNaissance,Email,Role,Avatar,id_dep) values('$username','$name','$hash','$date','$mail','$role','$avatar',$dept)")) {
+        if (!mysqli_query($conn, "INSERT INTO users (NomUtilisateur,Nom,MotDePasse,DateDeNaissance,Email,Role,Avatar,id_dep) values('$username','$name','$hash','$date','$mail','$role','$pic',$dept)")) {
             echo mysqli_error($conn);
         } else {
             return true;
@@ -118,16 +132,12 @@ function Login_verif($email, $pass)
 {
     $conn = connect_bdd();
     $pass_h = md5($pass);
-    $sql = mysqli_fetch_array(mysqli_query($conn, "SELECT * from users where Email like '$email'"));
+    $sql = mysqli_fetch_array(mysqli_query($conn, "SELECT * from users where Email like '$email' and MotDePasse like '$pass_h' "));
     if (!empty($sql)) {
-        $sql2 = mysqli_fetch_array(mysqli_query($conn, "SELECT * from users where MotDePasse like '$pass_h'"));
-        if (!empty($sql2)) {
             return 1;
-        } else {
-            return 22;
-        }
+       
     } else {
-        return 11;
+        return 0;
     }
 }
 
@@ -147,7 +157,7 @@ function Role($num)
             return "Docteur";
             break;
         case 4:
-            return "Infirmier";
+            return "Pharmacien";
             break;
         default:
             return NULL;

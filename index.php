@@ -81,38 +81,150 @@ if (!isset($_SESSION["login"]) || $role == 2) {
               <input type="password" name="pswd" id="" required placeholder="Mot de passe">&nbsp;
               <input type="hidden" name="LogForm">
               <button type="submit" name="Login"><i class="fa fa-sign-in-alt"></i></button> &nbsp;&nbsp;
-              <a href="#">Mot de passe oublié ?</a>
+              <a id="forget">Mot de passe oublié ?</a>
 
 
             </form>
 
 
+
           </div>
           <script>
             jQuery(function($) {
-              $('#loginForm').on('submit', function(e) {
-                e.preventDefault();
-                $.ajax({
-                  type: "post",
-                  url: "./PHP_SCRIPT/Auth.php",
-                  data: $(this).serialize(),
-                  success: function(data) {
-                    if (data == "notfound") {
-                      alertify.error("utilisateur non trouvé")
+              if (localStorage.getItem("code") == localStorage.getItem("code2") && localStorage.getItem("code") != undefined) {
+                alertify.prompt("Nouveau mot de passe", "Saisir attentivement votre nouveau mot de passe : ", '', function(e, v) {
+                  if (v == '' || v.length < 4) {
+                    e.cancel = true;
+                    alertify.error("Entrez un mot de passe valide !")
+                  } else {
+                    $.ajax({
+                      url: "./PHP_SCRIPT/Auth.php",
+                      type: "post",
+                      data: {
+                        query: "ChangePass",
+                        data: v,
+                        email: localStorage.getItem("email")
+                      },
+                      success: function(data) {
+                        if (data == 1) {
+                          alertify.success("Mot de passe bien récupérée");
+                          localStorage.removeItem("code");
+                          localStorage.removeItem("code2");
+                          localStorage.removeItem("email");
+                        } else {
+                          alertify.error(data);
+                        }
+                      }
+                    })
+                  }
 
-                    } else if (data == "pass") {
-                      alertify.error("mot de passe non valide")
+
+                }, function() {
+                  alertify.error("Operation annulée");
+
+                }).set("type", "password");
+              }
+
+
+              $("#forget").on("click", function() {
+                alertify.prompt('Confirmation ', 'Voud devez entrer votre email :', '', function(evt, value) {
+                    if (value == '') {
+                      evt.cancel = true
+
 
                     } else {
-                      window.location.reload()
+                      $.ajax({
+                        url: "./PHP_SCRIPT/Auth.php",
+                        type: "post",
+                        data: {
+                          query: "email",
+                          data: value,
+                        },
+                        success: function(data) {
+                          if (data == 0) {
+                            alertify.error("Email n'existe pas");
+                          } else {
+                            $.ajax({
+                              url: "./PHP_SCRIPT/Auth.php",
+                              type: "post",
+                              data: {
+                                query: "Forget",
+                                email: value,
+                              },
+                              beforeSend: function() {
+                                // setting a timeout
+                                alertify.warning("Verification en cours..");
+                              },
+                              success: function(data) {
+
+                                localStorage.setItem("email", value)
+                                localStorage.setItem("code", data);
+                                alertify.prompt("Validation", "Un code est envoyée à votre email , saisir le code reçu s'il vous plaît : ", '', function(e, val) {
+                                  if (val == '') {
+                                    e.cancel = true
+                                  } else {
+                                    let cd = localStorage.getItem("code");
+                                    if (val != cd) {
+                                      e.cancel = true;
+                                      alertify.error("code non valide");
+                                    } else {
+                                      localStorage.setItem("code2", val);
+                                      window.location.reload();
+
+
+
+                                    }
+
+                                  }
+                                }, function() {
+                                  alertify.error('Operation annulée')
+                                  localStorage.removeItem("code");
+                                })
+
+                              }
+
+
+                            })
+                          }
+
+                        }
+
+
+
+
+                      })
                     }
+                  },
+                  function() {
+                    alertify.error('Cancel')
+                  }).set("type", "email")
 
-                  }
-                })
-              })
 
 
+
+              });
             })
+
+            $('#loginForm').on('submit', function(e) {
+              e.preventDefault();
+              $.ajax({
+                type: "post",
+                url: "./PHP_SCRIPT/Auth.php",
+                data: $(this).serialize(),
+                success: function(data) {
+                  if (data == "notfound") {
+                    alertify.error("Verifier vos cordonnées")
+
+                  } else if (data == "pass") {
+                    alertify.error("mot de passe non valide")
+
+                  } else {
+                    window.location.reload()
+                  }
+
+                }
+              })
+            });
           </script>
         <?php } else { ?>
           <div class="back" id="back" style="position: absolute;left:15px;top:10px;display:none;font-size: 15px;">
@@ -418,15 +530,15 @@ if (!isset($_SESSION["login"]) || $role == 2) {
               <form id="inscription" enctype="multipart/form-data" method="POST">
                 <h1>Crée un compte</h1>
                 <label for=""> Nom d'utilisateur</label>
-                <input type="text" id="username" name="nomUtilisateur" placeholder="Nom d'utilisateur" required="">
+                <input minlength="5" type="text" id="username" name="nomUtilisateur" placeholder="Nom d'utilisateur" required="">
                 <label for=""> Nom et prénom</label>
-                <input type="text" name="nom" placeholder="Votre Nom" required="">
+                <input minlength="6" type="text" name="nom" placeholder="Votre Nom" required="">
                 <label for=""> Date de naissance</label>
-                <input type="date" name="datenaissance" placeholder="Date De naissance" required="">
+                <input max="1999-12-31" type="date" name="datenaissance" placeholder="Date De naissance" required="">
                 <label for=""> Email</label>
-                <input type="email" name="email" placeholder="Email" required="" id="emailI">
+                <input pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" type="email" name="email" placeholder="Email" required="" id="emailI">
                 <label for=""> Mot de passe</label>
-                <input type="password" name="motdepasse" placeholder="Mot de passe" required="">
+                <input minlength="5" type="password" name="motdepasse" placeholder="Mot de passe" required="">
                 <label for=""> Photo de profile </label>
                 <input style="font-size:10px;padding-top: 4px;height:30px" type="file" name="AVATAR" value="">
                 <input type="hidden" name="sign">
@@ -644,7 +756,7 @@ if (!isset($_SESSION["login"]) || $role == 2) {
                   </div>
                   <div class="row">
                     <div class="col-md-4 form-group mt-3">
-                      <input required type="date" name="date" class="form-control datepicker" id="date" placeholder="Date de rendez-vous" data-rule="minlen:4" data-msg="Please enter at least 4 chars">
+                      <input required type="date" min="<?php echo date("Y-m-d") ?>" name="date" class="form-control datepicker" id="date" placeholder="Date de rendez-vous" data-rule="minlen:4" data-msg="Please enter at least 4 chars">
                       <div class="validate"></div>
                     </div>
                     <div class="col-md-4 form-group mt-3">

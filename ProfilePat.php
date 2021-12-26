@@ -187,11 +187,11 @@ if (isset($_SESSION["role"])) {
                         </div>
                         <form id="editprofile" enctype="multipart/form-data">
                             <div class="row mt-2">
-                                <div class="col-md-6"><label class="labels">Nom et prenom</label><input type="text" class="form-control" id="nomPrenom" name="name" value="<?php echo $_SESSION["nom"] ?>" required></div>
+                                <div class="col-md-6"><label class="labels">Nom et prenom</label><input minlength="6" type="text" class="form-control" id="nomPrenom" name="name" value="<?php echo $_SESSION["nom"] ?>" required></div>
                                 <div class="col-md-6"><label class="labels">Nom d'utilisateur</label><input type="text" class="form-control" value="<?php echo $_SESSION["username"] ?>" placeholder="surname" readonly></div>
                             </div>
                             <div class="row mt-3">
-                                <div class="col-md-12"><label class="labels">Email</label><input id="emailPr" type="email" name="email" class="form-control" placeholder="" value="<?php echo $_SESSION["email"] ?>" required></div>
+                                <div class="col-md-12"><label class="labels">Email</label><input pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" id="emailPr" type="email" name="email" class="form-control" placeholder="" value="<?php echo $_SESSION["email"] ?>" required></div>
                             </div>
                             <div class="row mt-3">
                                 <div class="col-md-12"><label class="labels">Telephone : </label><input type="tel" id="tel" name="tel" class="form-control" placeholder="" value="<?php echo $_SESSION["tel"] ?>"></div>
@@ -200,10 +200,10 @@ if (isset($_SESSION["role"])) {
                                 <div class="col-md-12"><label class="labels">Votre avatar : </label><input type="file" id="" name="avatar" class="form-control" placeholder=""></div>
                             </div>
                             <div class="row mt-3">
-                                <div class="col-md-12"><label class="labels">Date de naissance</label><input type="date" id="dateP" name="datenaiss" class="form-control" placeholder="" value="<?php echo $_SESSION["datenaiss"] ?>" required></div>
+                                <div class="col-md-12"><label class="labels">Date de naissance</label><input max="1999-12-31" type="date" id="dateP" name="datenaiss" class="form-control" placeholder="" value="<?php echo $_SESSION["datenaiss"] ?>" required></div>
                             </div>
                             <div class="row mt-3">
-                                <div class="col-md-6"><label class="labels">Nouveau Mot de passe :</label><input id="mdp" name="mdp" type="password" class="form-control" placeholder="Mot de passe" value="" min="5"></div>
+                                <div class="col-md-6"><label class="labels">Nouveau Mot de passe :</label><input minlength="5" id="mdp" name="mdp" type="password" class="form-control" placeholder="Mot de passe" value="" min="5"></div>
                                 <div class="col-md-6"><label class="labels">Confirmer Mot de passe :</label><input id="confirmation" type="password" class="form-control" value="" placeholder="Confirmer" min="5"></div>
 
                             </div>
