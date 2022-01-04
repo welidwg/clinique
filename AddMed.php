@@ -106,7 +106,7 @@ if ($_SESSION["login"] && $_SESSION["role"] == 4) {
                                     contentType: false,
                                     success: function(data) {
                                         if (data == 1) {
-                                            alertify.success("Akout avec succées");
+                                            alertify.success("Ajout avec succées");
                                             $("#addMedform").trigger("reset")
 
                                         } else {
