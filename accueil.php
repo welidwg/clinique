@@ -6,6 +6,7 @@ require_once("./PHP_SCRIPT/Utiles.php");
 if ($_SESSION["login"] && $_SESSION["role"] != 2) {
 	$name = $_SESSION["nom"];
 	$role = $_SESSION["role"];
+	$ch;
 
 ?>
 
