@@ -232,18 +232,21 @@ if ($_SESSION["role"] == 0 || $_SESSION["role"] == 1) {
                                                                             $("#nomE").attr("value", data.nom)
                                                                             $("#role").html("").append(data.role_name)
                                                                             $("#iduser").attr("value", data.id)
-                                                                            if (data.dept != 0) {
-                                                                                $("#departement").html("")
-                                                                                console.log(data.dept.length);
+
+                                                                            $("#departement").html("")
+                                                                            console.log(data.dept.length);
+                                                                            if (data.id_dep != 0) {
                                                                                 $("#departement").append("<option value='" + data.id_dep + "'>" + data.nom_dep + "</option>")
-                                                                                for (let i = 0; i < data.dept.length; i++) {
-                                                                                    $("#departement").append("<option value='" + data.dept[i].id_dep + "'>" + data.dept[i].nom_dep + "</option>")
-                                                                                }
-
-
-
 
                                                                             }
+                                                                            for (let i = 0; i < data.dept.length; i++) {
+                                                                                $("#departement").append("<option value='" + data.dept[i].id_dep + "'>" + data.dept[i].nom_dep + "</option>")
+                                                                            }
+
+
+
+
+
                                                                             if (data.role == 0) {
                                                                                 $("#selectRole").html('')
                                                                                 $("#selectRole").append("<option value='0'>Admin</option>")
@@ -317,7 +320,11 @@ if ($_SESSION["role"] == 0 || $_SESSION["role"] == 1) {
                                                                             },
                                                                             success: function(data) {
                                                                                 if (data == 1) {
-                                                                                    alertify.success("Suppression réussite !")
+                                                                                    alertify.success("Suppression réussite !");
+                                                                                    setInterval(() => {
+
+                                                                                        window.location.reload();
+                                                                                    }, 700);
                                                                                 } else {
                                                                                     alertify.error(data)
 

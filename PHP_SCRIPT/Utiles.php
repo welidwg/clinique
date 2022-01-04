@@ -92,7 +92,7 @@ function sendMail($email, $subject, $body)
     $mail->Host = 'smtp.gmail.com'; // Spécifier le serveur SMTP
     $mail->SMTPAuth = true; // Activer authentication SMTP
     $mail->SMTPSecure = 'ssl';
-    $mail->Username = 'TechStoreManager@gmail.com';
+    $mail->Username = 'CliniqueManager@gmail.com';
     $mail->Password = 'Barcelona1899';
     $mail->Port = 465;
     $mail->SetFrom("test@gmail.com", "Clinique");

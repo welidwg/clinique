@@ -12,8 +12,6 @@ if ($_SESSION["login"] && $_SESSION["role"] == 0) {
 
 ?>
         <style>
-            #adduserform {}
-
             #adduserform input,
             #adduserform select {
                 width: 50%;
@@ -29,58 +27,8 @@ if ($_SESSION["login"] && $_SESSION["role"] == 0) {
 
 
 
-                $('#username').on('keyup', function() {
-                    var val = $(this).val();
-                    $.ajax({
-                        url: "../PHP_SCRIPT/Utiles.php",
-                        data: {
-                            username: val,
-                            query: "AddUser_usrname"
-                        },
-                        type: "GET",
-                        success: function(data) {
-                            if (data == 1) {
-                                $("#username").css("color", "limegreen");
-                                $("#errors").css("display", "none");
-                                $("#submit").removeAttr("disabled");
-                                $("#usernameErr").css("display", "none");
-
-
-                            } else {
-                                $("#username").css("color", "red");
-                                $("#errors").css("display", "block");
-                                $("#usernameErr").css("display", "block");
-                                $("#submit").attr("disabled", "disabled");
-                            }
-                        }
-                    });
-                });
-                $('#mail').on('keyup', function() {
-                    var val = $(this).val();
-                    $.ajax({
-                        url: "../PHP_SCRIPT/Utiles.php",
-                        data: {
-                            mail: val,
-                            query: "AddUser_mail"
-                        },
-                        type: "GET",
-                        success: function(data) {
-                            if (data == 1) {
-                                $("#mail").css("color", "limegreen");
-                                $("#errors").css("display", "none");
-                                $("#submit").removeAttr("disabled");
-                                $("#mailErr").css("display", "none");
-
-
-                            } else {
-                                $("#mail").css("color", "red");
-                                $("#errors").css("display", "block");
-                                $("#mailErr").css("display", "block");
-                                $("#submit").attr("disabled", "disabled");
-                            }
-                        }
-                    });
-                });
+              
+              
 
             })(jQuery);
         </script>
@@ -127,6 +75,8 @@ if ($_SESSION["login"] && $_SESSION["role"] == 0) {
                                             success: function(data) {
                                                 if (data == 1) {
                                                     alertify.success("Ajouté avec succées");
+                                                    $("#adduserform").trigger("reset");
+
                                                 } else {
                                                     alertify.error(data);
 
@@ -140,17 +90,14 @@ if ($_SESSION["login"] && $_SESSION["role"] == 0) {
                                     }
 
                                 })
-                                $("#adduserform").on("submit", function(e) {
-                                    e.preventDefault();
 
-                                })
 
                                 $('#username').on("keyup", function() {
                                     $.ajax({
                                         url: "PHP_SCRIPT/Auth.php",
                                         type: "post",
                                         data: {
-                                            query: "username",
+                                            query: "username1",
                                             data: $(this).val(),
                                         },
                                         success: function(data) {

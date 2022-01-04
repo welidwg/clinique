@@ -11,6 +11,7 @@ if (!isset($_SESSION["login"]) || $role == 2) {
   if (isset($role)) {
     $nom = $_SESSION["username"];
     $username = $_SESSION["username"];
+    $_SESSION['LAST_ACTIVITY'] = time();
   } ?>
   <!DOCTYPE html>
   <html lang="en">
@@ -247,6 +248,31 @@ if (!isset($_SESSION["login"]) || $role == 2) {
     </div>
     <script>
       jQuery(function($) {
+
+        setInterval(() => {
+          Session();
+        }, 500);
+
+        function Session() {
+          $.ajax({
+            type: "post",
+            url: "./PHP_SCRIPT/middleware.php",
+            data: {
+              query: "session"
+            },
+            success: function(data) {
+              if (data == 1) {
+                window.location.href = "?SessionExp"
+              }
+
+            }
+          })
+        }
+        if (location.search == "?SessionExp") {
+          alertify.alert("Information","Votre session est expirée");
+        }
+
+
         $("#goProfile").on("click", function() {
           $("#profile").css("display", "block");
           $('#mainContent').css("display", "none");
@@ -423,7 +449,13 @@ if (!isset($_SESSION["login"]) || $role == 2) {
               <div class="col-lg-3 col-md-6">
                 <div class="count-box">
                   <i class="fas fa-user-md"></i>
-                  <span data-purecounter-start="0" data-purecounter-end="85" data-purecounter-duration="1" class="purecounter"></span>
+                  <?php
+                  $num_doc = mysqli_num_rows(mysqli_query($connect, "SELECT * from users where role=3"));
+                  $num_pat = mysqli_num_rows(mysqli_query($connect, "SELECT * from users where role=2"));
+                  $num_stuff = mysqli_num_rows(mysqli_query($connect, "SELECT * from users where role=4 or role=1"));
+                  $num_dept = mysqli_num_rows(mysqli_query($connect, "SELECT * from departement"));
+                  ?>
+                  <span data-purecounter-start="0" data-purecounter-end="<?php echo $num_doc ?>" data-purecounter-duration="1" class="purecounter"></span>
                   <p>Docteurs</p>
                 </div>
               </div>
@@ -431,23 +463,24 @@ if (!isset($_SESSION["login"]) || $role == 2) {
               <div class="col-lg-3 col-md-6 mt-5 mt-md-0">
                 <div class="count-box">
                   <i class="far fa-hospital"></i>
-                  <span data-purecounter-start="0" data-purecounter-end="18" data-purecounter-duration="1" class="purecounter"></span>
+                  <span data-purecounter-start="0" data-purecounter-end="<?php echo $num_dept ?>" data-purecounter-duration="1" class="purecounter"></span>
                   <p>Departements</p>
                 </div>
               </div>
-
               <div class="col-lg-3 col-md-6 mt-5 mt-lg-0">
                 <div class="count-box">
-                  <i class="fas fa-flask"></i>
-                  <span data-purecounter-start="0" data-purecounter-end="12" data-purecounter-duration="1" class="purecounter"></span>
-                  <p>Laboratoires de recherche</p>
+                  <i class="fas fa-users"></i>
+                  <span data-purecounter-start="0" data-purecounter-end="<?php echo $num_pat ?>" data-purecounter-duration="1" class="purecounter"></span>
+                  <p>Patients</p>
                 </div>
               </div>
 
+
+
               <div class="col-lg-3 col-md-6 mt-5 mt-lg-0">
                 <div class="count-box">
-                  <i class="fas fa-award"></i>
-                  <span data-purecounter-start="0" data-purecounter-end="150" data-purecounter-duration="1" class="purecounter"></span>
+                  <i class="fas fa-user-nurse"></i>
+                  <span data-purecounter-start="0" data-purecounter-end="<?php echo $num_stuff ?>" data-purecounter-duration="1" class="purecounter"></span>
                   <p>Prix</p>
                 </div>
               </div>
@@ -525,10 +558,10 @@ if (!isset($_SESSION["login"]) || $role == 2) {
 
           <!-- Modal content -->
           <div class="modal-content1">
-            <div class="mainM">
+            <div class="mainM" style="zoom: 0.9;">
               <span onclick="closeForm()" class="close">x</span>
               <form id="inscription" enctype="multipart/form-data" method="POST">
-                <h1>Crée un compte</h1>
+                <h1>Crée un compte</h1><br>
                 <label for=""> Nom d'utilisateur</label>
                 <input minlength="5" type="text" id="username1" name="nomUtilisateur" placeholder="Nom d'utilisateur" required="">
                 <label for=""> Nom et prénom</label>
@@ -537,15 +570,30 @@ if (!isset($_SESSION["login"]) || $role == 2) {
                 <input max="1999-12-31" type="date" name="datenaissance" placeholder="Date De naissance" required="">
                 <label for=""> Email</label>
                 <input pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" type="email" name="email" placeholder="Email" required="" id="emailI">
-                <label for=""> Mot de passe</label>
-                <input minlength="5" type="password" name="motdepasse" placeholder="Mot de passe" required="">
                 <label for=""> Photo de profile </label>
-                <input style="font-size:10px;padding-top: 4px;height:30px" type="file" name="AVATAR" value="">
+                <input class="form-control" type="file" name="AVATAR" value="" accept="image/*">
+                <label for=""> Mot de passe</label>
+                <input id="mdp" minlength="5" type="password" name="motdepasse" placeholder="Mot de passe" required="">
+                <label for=""> Confirmer mot de passe</label>
+                <input id="confirmation" type="password" name="motdepasse" placeholder="Confirmer mot de passe" required="">
+
                 <input type="hidden" name="sign">
                 <button id="sub" name="SignUp">S'inscrire</button>
               </form>
               <script>
                 jQuery(function($) {
+                  $('#confirmation').on("keyup", function() {
+                    if ($(this).val() !== $("#mdp").val()) {
+                      $('#sub').attr("disabled", true);
+                      $(this).css("border", "2px solid red");
+
+                    } else {
+                      $(this).css("border", "1px solid #ccc");
+                      $('#sub').removeAttr("disabled");
+
+
+                    }
+                  })
                   $('#username1').on("keyup", function() {
                     $.ajax({
                       type: 'post',
@@ -920,7 +968,7 @@ if (!isset($_SESSION["login"]) || $role == 2) {
             </div>
 
             <div class="row">
-              <?php $doc = runQuery("SELECT * from users where Role=3");
+              <?php $doc = runQuery("SELECT * from users where Role=3 LIMIT 4");
               if (!empty($doc)) {
                 foreach ($doc as $a => $n) { ?>
                   <div class="col-lg-6">
@@ -1242,69 +1290,49 @@ if (!isset($_SESSION["login"]) || $role == 2) {
           </div>
 
           <div>
-            <iframe style="border:0; width: 100%; height: 350px;" src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d12097.433213460943!2d-74.0062269!3d40.7101282!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xb89d1fe6bc499443!2sDowntown+Conference+Center!5e0!3m2!1smk!2sbg!4v1539943755621" frameborder="0" allowfullscreen></iframe>
-          </div>
+            <iframe style="border:0; width: 50%; height: 350px;float: left;" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3234.9269044312423!2d10.586686350437589!3d35.826269080063355!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12fd8b3a0237010f%3A0x4418fc1f1a3cb73f!2sPolytechnique%20Sousse!5e0!3m2!1sfr!2stn!4v1641181517634!5m2!1sfr!2stn" frameborder="0" allowfullscreen></iframe>
+            <div class="container" style="width: 50%;">
+              <div class="row mt-5">
 
-          <div class="container">
-            <div class="row mt-5">
+                <div class="col-lg-8">
+                  <div class="info">
+                    <div class="address">
+                      <i class="bi bi-geo-alt"></i>
+                      <h4>Location:</h4>
+                      <p>rue commandant bjeoui , Sousse,Tunisie</p>
+                    </div>
 
-              <div class="col-lg-4">
-                <div class="info">
-                  <div class="address">
-                    <i class="bi bi-geo-alt"></i>
-                    <h4>Location:</h4>
-                    <p>rue commandant bjeoui , Sousse,Tunisie</p>
-                  </div>
+                    <div class="email">
+                      <i class="bi bi-envelope"></i>
+                      <h4>Email:</h4>
+                      <p>CliniqueManager@gmail.com</p>
+                    </div>
 
-                  <div class="email">
-                    <i class="bi bi-envelope"></i>
-                    <h4>Email:</h4>
-                    <p>info@example.com</p>
-                  </div>
+                    <div class="phone">
+                      <i class="bi bi-phone"></i>
+                      <h4>Télephone:</h4>
+                      <p>+216 55488241</p>
+                    </div>
 
-                  <div class="phone">
-                    <i class="bi bi-phone"></i>
-                    <h4>Télephone:</h4>
-                    <p>+216 xxxxxxxx</p>
                   </div>
 
                 </div>
 
               </div>
+            </div><br>
 
-              <div class="col-lg-8 mt-5 mt-lg-0">
 
-                <form action="forms/contact.php" method="post" role="form" class="php-email-form">
-                  <div class="row">
-                    <div class="col-md-6 form-group">
-                      <input type="text" name="name" class="form-control" id="name" placeholder="Votre Nom" required>
-                    </div>
-                    <div class="col-md-6 form-group mt-3 mt-md-0">
-                      <input type="email" class="form-control" name="email" id="email" placeholder="Votre Email" required>
-                    </div>
-                  </div>
-                  <div class="form-group mt-3">
-                    <input type="text" class="form-control" name="subject" id="subject" placeholder="Sujet" required>
-                  </div>
-                  <div class="form-group mt-3">
-                    <textarea class="form-control" name="message" rows="5" placeholder="Message" required></textarea>
-                  </div>
-                  <div class="my-3">
-                    <div class="loading">Loading</div>
-                    <div class="error-message"></div>
-                    <div class="sent-message">Your message has been sent. Thank you!</div>
-                  </div>
-                  <div class="text-center"><button type="submit">Envoyer le Message</button></div>
-                </form>
 
-              </div>
-
-            </div>
 
           </div>
-        </section><!-- End Contact Section -->
 
-      </main><!-- End #main -->
+
+
+    </div>
+
+    </section><!-- End Contact Section -->
+
+    </main><!-- End #main -->
     </div>
     <!-- ======= Footer ======= -->
     <footer id="footer">
@@ -1319,8 +1347,8 @@ if (!isset($_SESSION["login"]) || $role == 2) {
                 Rue commandant bejaoui <br>
                 Sousse,<br>
                 Tunisie <br><br>
-                <strong>Télephone:</strong> +216 xxxxxxxx<br>
-                <strong>Email:</strong> info@example.com<br>
+                <strong>Télephone:</strong> +216 55488241<br>
+                <strong>Email:</strong> CliniqueManager@gmail.com<br>
               </p>
             </div>
 

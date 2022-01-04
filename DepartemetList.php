@@ -64,9 +64,9 @@ if (isset($_SESSION["login"]) && $_SESSION["role"] == 0) {
 
             .user-list tbody td>img {
                 position: relative;
-                max-width: 50px;
+                max-width: 90px;
                 float: left;
-                margin-right: 15px;
+                text-align: center;
             }
 
             .table thead tr th {
@@ -176,11 +176,13 @@ if (isset($_SESSION["login"]) && $_SESSION["role"] == 0) {
                                                 $i++; ?>
                                                 <tr class="userData">
                                                     <td style="width: 10%;">
-                                                        <a href="#" class="user-link"><?php echo  $array[$k]["id_dep"] . "\t";
-                                                                                        ?></a>
+                                                        <img style="border-radius: 50px;" src="<?php echo  $array[$k]["image"]
+                                                                                                ?>" />
+                                                        <a href="#" class="user-phto">
 
                                                     </td>
-                                                    <td style="width:20%"><?php echo $array[$k]["nom_dep"];  ?></td>
+                                                    <td style=" width:20%"><?php echo $array[$k]["nom_dep"];  ?>
+                                                    </td>
                                                     <td style="width:30%">
                                                         <p style=""><?php echo $array[$k]["description"];  ?></p>
                                                     </td>

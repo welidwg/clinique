@@ -1,10 +1,12 @@
 <?php
 session_start();
 require_once("./PHP_SCRIPT/Utiles.php");
-if ($_SESSION["login"] == true) {
+if ($_SESSION["login"]) {
   $role = $_SESSION["role"];
   $username = $_SESSION["username"];
   $nom = $_SESSION["nom"];
+  $_SESSION['LAST_ACTIVITY'] = time();
+
 ?>
 
   <!DOCTYPE html>
@@ -69,6 +71,30 @@ if ($_SESSION["login"] == true) {
     }
   </style>
   <link href="assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
+  <script>
+    jQuery(function($) {
+      setInterval(() => {
+        Session();
+      }, 500);
+
+      function Session() {
+        $.ajax({
+          type: "post",
+          url: "./PHP_SCRIPT/middleware.php",
+          data: {
+            query: "session"
+          },
+          success: function(data) {
+            if (data == 1) {
+              window.location.href = "index?SessionExp";
+            }
+
+          }
+        })
+      }
+
+    })
+  </script>
 
   <body>
 
@@ -95,6 +121,17 @@ if ($_SESSION["login"] == true) {
             <?php if ($role == 0) { ?>
               <li class="sidebar-header">Gestion des utilisateurs</li>
 
+
+
+
+              <li class="sidebar-item <?php if ($current == "adduser") {
+                                        echo "active";
+                                      } ?>">
+                <a class="sidebar-link" href="./AddUser">
+                  <i class="align-middle" data-feather="user-plus"></i>
+                  <span class="align-middle">Ajouter un utilisateur</span>
+                </a>
+              </li>
               <li class="sidebar-item  <?php if ($current == "userList") {
                                           echo "active";
                                         } ?>">
@@ -108,16 +145,6 @@ if ($_SESSION["login"] == true) {
                 </a>
 
 
-              </li>
-
-
-              <li class="sidebar-item <?php if ($current == "adduser") {
-                                        echo "active";
-                                      } ?>">
-                <a class="sidebar-link" href="./AddUser">
-                  <i class="align-middle" data-feather="user-plus"></i>
-                  <span class="align-middle">Ajouter un utilisateur</span>
-                </a>
               </li>
               <li class="sidebar-header">Gestion des Departements</li>
               <li class="sidebar-item >" <?php if ($current == "adddept") {
@@ -392,8 +419,8 @@ if ($_SESSION["login"] == true) {
                 <div class="dropdown-menu dropdown-menu-end">
                   <a class="dropdown-item" href="./Profile"><i class="align-middle me-1" data-feather="user"></i>
                     Profile</a>
-                
-                
+
+
                   <div class="dropdown-divider"></div>
                   <a class="dropdown-item" href="./PHP_SCRIPT/Utiles.php?Logout">Déconnecter <i class="fa fa-sign-out-alt"></i></a>
                 </div>

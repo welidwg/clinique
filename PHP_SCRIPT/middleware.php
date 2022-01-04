@@ -110,7 +110,7 @@
             $action = $_POST["action"];
             $origStock = $_POST["stockH"];
             $stock = $_POST["stock"];
-            $id=$_POST["idMedEdit"];
+            $id = $_POST["idMedEdit"];
             if ($action == 0) {
                 $newStock = $origStock - $stock;
             } else if ($action == 1) {
@@ -175,7 +175,8 @@
                     $dept = runQuery("SELECT * from departement where id_dep!=$id_dep");
                     $nomdept = mysqli_fetch_array(mysqli_query($connect, "SELECT * from departement where id_dep=$id_dep"));
                 } else {
-                    $dept = 0;
+                    $dept =
+                        runQuery("SELECT * from departement where id_dep!=$id_dep");
                     $nomdept = array("nom_dep" => "");
                 }
                 $arr = array(
@@ -223,6 +224,13 @@
                     "stock" => $nom["stock"]
                 );
                 echo json_encode($arr);
+            } else if ($_POST["query"] == "session") {
+                if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > 800)) {
+                    // last request was more than 30 minutes ago
+                    session_unset();     // unset $_SESSION variable for the run-time 
+                    session_destroy();   // destroy session data in storage
+                    echo 1;
+                }
             }
         }
 
