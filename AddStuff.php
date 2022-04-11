@@ -187,7 +187,7 @@ if ($_SESSION["login"]) {
                                         url: "PHP_SCRIPT/Auth.php",
                                         type: "post",
                                         data: {
-                                            query: "username",
+                                            query: "username1",
                                             data: $(this).val(),
                                         },
                                         success: function(data) {
@@ -218,6 +218,10 @@ if ($_SESSION["login"]) {
                                             success: function(data) {
                                                 if (data == 1) {
                                                     alertify.success("Ajouté avec succées");
+                                                    setInterval(() => {
+                                                        window.location.reload();
+
+                                                    }, 500);
                                                 } else {
                                                     alertify.error(data);
 

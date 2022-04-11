@@ -269,7 +269,7 @@ if (!isset($_SESSION["login"]) || $role == 2) {
           })
         }
         if (location.search == "?SessionExp") {
-          alertify.alert("Information","Votre session est expirée");
+          alertify.alert("Information", "Votre session est expirée");
         }
 
 
@@ -332,7 +332,7 @@ if (!isset($_SESSION["login"]) || $role == 2) {
               <li><a href="#">Drop Down 4</a></li>
             </ul>
           </li>-->
-              <li><a class="nav-link scrollto" href="#contact">Contactez-nous</a></li>
+              <li><a class="nav-link scrollto" href="#contact">Nos contacts</a></li>
             </ul>
             <i class="bi bi-list mobile-nav-toggle"></i>
           </nav><!-- .navbar -->
@@ -363,8 +363,9 @@ if (!isset($_SESSION["login"]) || $role == 2) {
                 <div class="content">
                   <h3>Pourquoi choisir clinique ?</h3>
                   <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis aute irure dolor in reprehenderit
-                    Asperiores dolores sed et. Tenetur quia eos. Autem tempore quibusdam vel necessitatibus optio ad corporis.
+                    La clinique offre une gamme complète et très différencie de service au plus haut niveau médical et thérapeuthique.
+                    Nos principaux dommaines sont : en médecine générale , en churigie , immunologie , cardiologie , neurologie et radiologie.
+                    Notre personel prend en charge et traite environ 1200 patients par un ans.
                   </p>
                   <div class="text-center">
                     <a href="#" class="more-btn">Plus <i class="bx bx-chevron-right"></i></a>
@@ -377,22 +378,26 @@ if (!isset($_SESSION["login"]) || $role == 2) {
                     <div class="col-xl-4 d-flex align-items-stretch">
                       <div class="icon-box mt-4 mt-xl-0">
                         <i class="bx bx-receipt"></i>
-                        <h4>Corporis voluptates sit</h4>
-                        <p>Consequuntur sunt aut quasi enim aliquam quae harum pariatur laboris nisi ut aliquip</p>
+                        <h4>Transparence</h4>
+                        <p>Le patient est placé au centre du dispositive manageriale dont le but est de lui offrir a la fois des conditions d'accées idéale , efficace et sécurisée. Ainsi que des confitions de séjours confortables et agréables.</p>
                       </div>
                     </div>
                     <div class="col-xl-4 d-flex align-items-stretch">
                       <div class="icon-box mt-4 mt-xl-0">
                         <i class="bx bx-cube-alt"></i>
-                        <h4>Ullamco laboris ladore pan</h4>
-                        <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt</p>
+                        <h4>Intégrité</h4>
+                        <p>Conscient que la rapidité d'un patient peut lui sauver la vie, le personnel médical de la clinique
+                          met tout en oeuvre pour accueillir le patient dans les meuilleurs conditions et lui accorder les traitements
+                          dont il a besoin dans les plus brefs délais.
+                        </p>
                       </div>
                     </div>
                     <div class="col-xl-4 d-flex align-items-stretch">
                       <div class="icon-box mt-4 mt-xl-0">
                         <i class="bx bx-images"></i>
-                        <h4>Labore consequatur</h4>
-                        <p>Aut suscipit aut cum nemo deleniti aut omnis. Doloribus ut maiores omnis facere</p>
+                        <h4>L'excellenece </h4>
+                        <p>Le clinique offre une pris en charge personnalisée,sécurisée globale et cordonnée.<br>en effet
+                          pour mieux satisfaire ces patients,la clinique accorde égallement,une importance particuliere a la pris-en-charge de la douleur et au soins palliatifs.</p>
                       </div>
                     </div>
                   </div>
@@ -414,24 +419,25 @@ if (!isset($_SESSION["login"]) || $role == 2) {
 
               <div class="col-xl-7 col-lg-6 icon-boxes d-flex flex-column align-items-stretch justify-content-center py-5 px-lg-5">
                 <h3>A propos de notre clinique</h3>
-                <p>Esse voluptas cumque vel exercitationem. Reiciendis est hic accusamus. Non ipsam et sed minima temporibus laudantium. Soluta voluptate sed facere corporis dolores excepturi. Libero laboriosam sint et id nulla tenetur. Suscipit aut voluptate.</p>
+                <p>La clinique est une institution de santé multidisplinaire en Tunisie.Spécialisée en midicine générale , en chirigie,
+                  immunologie , cardiologie , neurologie et radiologie.</p>
 
                 <div class="icon-box">
                   <div class="icon"><i class="bx bx-fingerprint"></i></div>
-                  <h4 class="title"><a href="">Lorem Ipsum</a></h4>
-                  <p class="description">Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident</p>
+                  <h4 class="title"><a href="">Nos Equipes</a></h4>
+                  <p class="description">Nos équipes sont qualifiés et gradués parmis les meilleurs facultés du monde</p>
                 </div>
 
                 <div class="icon-box">
                   <div class="icon"><i class="bx bx-gift"></i></div>
-                  <h4 class="title"><a href="">Nemo Enim</a></h4>
-                  <p class="description">At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque</p>
+                  <h4 class="title"><a href="">Nos offre</a></h4>
+                  <p class="description">Notre clinique fournit à ces patients des offres et des promotions qui ne fronte pas des concurrances</p>
                 </div>
 
                 <div class="icon-box">
                   <div class="icon"><i class="bx bx-atom"></i></div>
-                  <h4 class="title"><a href="">Dine Pad</a></h4>
-                  <p class="description">Explicabo est voluptatum asperiores consequatur magnam. Et veritatis odit. Sunt aut deserunt minus aut eligendi omnis</p>
+                  <h4 class="title"><a href="">Nos Matériels</a></h4>
+                  <p class="description">On a des matériels trop modernes qui necessite des formations spéciales pour nos equipes</p>
                 </div>
 
               </div>
@@ -496,55 +502,55 @@ if (!isset($_SESSION["login"]) || $role == 2) {
 
             <div class="section-title">
               <h2>Nos Services</h2>
-              <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>
+              <p></p>
             </div>
 
             <div class="row">
               <div class="col-lg-4 col-md-6 d-flex align-items-stretch">
                 <div class="icon-box">
                   <div class="icon"><i class="fas fa-heartbeat"></i></div>
-                  <h4><a href="">Lorem Ipsum</a></h4>
-                  <p>Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi</p>
+                  <h4><a href="">Depatements diversifiés</a></h4>
+                  <p>Nous avons un fort nombre des départements</p>
                 </div>
               </div>
 
               <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-md-0">
                 <div class="icon-box">
                   <div class="icon"><i class="fas fa-pills"></i></div>
-                  <h4><a href="">Sed ut perspiciatis</a></h4>
-                  <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore</p>
+                  <h4><a href="">Pharmacie</a></h4>
+                  <p>On dispose une pharmacie où on stock des divers médicaments</p>
                 </div>
               </div>
 
               <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-lg-0">
                 <div class="icon-box">
                   <div class="icon"><i class="fas fa-hospital-user"></i></div>
-                  <h4><a href="">Magni Dolores</a></h4>
-                  <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia</p>
+                  <h4><a href="">Docteurs Experts</a></h4>
+                  <p>Nos docteurs sont parmis les meilleurs dans le pays</p>
                 </div>
               </div>
 
               <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4">
                 <div class="icon-box">
                   <div class="icon"><i class="fas fa-dna"></i></div>
-                  <h4><a href="">Nemo Enim</a></h4>
-                  <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis</p>
+                  <h4><a href="">Temps</a></h4>
+                  <p>Notre ponctualité fait tous nos patients satisfaits</p>
                 </div>
               </div>
 
               <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4">
                 <div class="icon-box">
                   <div class="icon"><i class="fas fa-wheelchair"></i></div>
-                  <h4><a href="">Dele cardo</a></h4>
-                  <p>Quis consequatur saepe eligendi voluptatem consequatur dolor consequuntur</p>
+                  <h4><a href="">Handicape</a></h4>
+                  <p>Notre architecture prend en considération les handicaps</p>
                 </div>
               </div>
 
               <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4">
                 <div class="icon-box">
                   <div class="icon"><i class="fas fa-notes-medical"></i></div>
-                  <h4><a href="">Divera don</a></h4>
-                  <p>Modi nostrum vel laborum. Porro fugit error sit minus sapiente sit aspernatur</p>
+                  <h4><a href="">Soins</a></h4>
+                  <p>La majorité des nos médecins sont gradués de croissant rouge</p>
                 </div>
               </div>
 
@@ -901,7 +907,6 @@ if (!isset($_SESSION["login"]) || $role == 2) {
           <div class="container">
             <div class="section-title">
               <h2>Departements</h2>
-              <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>
             </div>
 
             <div class="row">
@@ -1047,155 +1052,9 @@ if (!isset($_SESSION["login"]) || $role == 2) {
         </section><!-- End Doctors Section -->
 
         <!-- ======= Frequently Asked Questions Section ======= -->
-        <section id="faq" class="faq section-bg">
-          <div class="container">
 
-            <div class="section-title">
-              <h2>Questions fréquemment posées</h2>
-              <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>
-            </div>
 
-            <div class="faq-list">
-              <ul>
-                <li data-aos="fade-up">
-                  <i class="bx bx-help-circle icon-help"></i> <a data-bs-toggle="collapse" class="collapse" data-bs-target="#faq-list-1">Non consectetur a erat nam at lectus urna duis? <i class="bx bx-chevron-down icon-show"></i><i class="bx bx-chevron-up icon-close"></i></a>
-                  <div id="faq-list-1" class="collapse show" data-bs-parent=".faq-list">
-                    <p>
-                      Feugiat pretium nibh ipsum consequat. Tempus iaculis urna id volutpat lacus laoreet non curabitur gravida. Venenatis lectus magna fringilla urna porttitor rhoncus dolor purus non.
-                    </p>
-                  </div>
-                </li>
 
-                <li data-aos="fade-up" data-aos-delay="100">
-                  <i class="bx bx-help-circle icon-help"></i> <a data-bs-toggle="collapse" data-bs-target="#faq-list-2" class="collapsed">Feugiat scelerisque varius morbi enim nunc? <i class="bx bx-chevron-down icon-show"></i><i class="bx bx-chevron-up icon-close"></i></a>
-                  <div id="faq-list-2" class="collapse" data-bs-parent=".faq-list">
-                    <p>
-                      Dolor sit amet consectetur adipiscing elit pellentesque habitant morbi. Id interdum velit laoreet id donec ultrices. Fringilla phasellus faucibus scelerisque eleifend donec pretium. Est pellentesque elit ullamcorper dignissim. Mauris ultrices eros in cursus turpis massa tincidunt dui.
-                    </p>
-                  </div>
-                </li>
-
-                <li data-aos="fade-up" data-aos-delay="200">
-                  <i class="bx bx-help-circle icon-help"></i> <a data-bs-toggle="collapse" data-bs-target="#faq-list-3" class="collapsed">Dolor sit amet consectetur adipiscing elit? <i class="bx bx-chevron-down icon-show"></i><i class="bx bx-chevron-up icon-close"></i></a>
-                  <div id="faq-list-3" class="collapse" data-bs-parent=".faq-list">
-                    <p>
-                      Eleifend mi in nulla posuere sollicitudin aliquam ultrices sagittis orci. Faucibus pulvinar elementum integer enim. Sem nulla pharetra diam sit amet nisl suscipit. Rutrum tellus pellentesque eu tincidunt. Lectus urna duis convallis convallis tellus. Urna molestie at elementum eu facilisis sed odio morbi quis
-                    </p>
-                  </div>
-                </li>
-
-                <li data-aos="fade-up" data-aos-delay="300">
-                  <i class="bx bx-help-circle icon-help"></i> <a data-bs-toggle="collapse" data-bs-target="#faq-list-4" class="collapsed">Tempus quam pellentesque nec nam aliquam sem et tortor consequat? <i class="bx bx-chevron-down icon-show"></i><i class="bx bx-chevron-up icon-close"></i></a>
-                  <div id="faq-list-4" class="collapse" data-bs-parent=".faq-list">
-                    <p>
-                      Molestie a iaculis at erat pellentesque adipiscing commodo. Dignissim suspendisse in est ante in. Nunc vel risus commodo viverra maecenas accumsan. Sit amet nisl suscipit adipiscing bibendum est. Purus gravida quis blandit turpis cursus in.
-                    </p>
-                  </div>
-                </li>
-
-                <li data-aos="fade-up" data-aos-delay="400">
-                  <i class="bx bx-help-circle icon-help"></i> <a data-bs-toggle="collapse" data-bs-target="#faq-list-5" class="collapsed">Tortor vitae purus faucibus ornare. Varius vel pharetra vel turpis nunc eget lorem dolor? <i class="bx bx-chevron-down icon-show"></i><i class="bx bx-chevron-up icon-close"></i></a>
-                  <div id="faq-list-5" class="collapse" data-bs-parent=".faq-list">
-                    <p>
-                      Laoreet sit amet cursus sit amet dictum sit amet justo. Mauris vitae ultricies leo integer malesuada nunc vel. Tincidunt eget nullam non nisi est sit amet. Turpis nunc eget lorem dolor sed. Ut venenatis tellus in metus vulputate eu scelerisque.
-                    </p>
-                  </div>
-                </li>
-
-              </ul>
-            </div>
-
-          </div>
-        </section><!-- End Frequently Asked Questions Section -->
-
-        <!-- ======= Testimonials Section ======= -->
-        <section id="testimonials" class="testimonials">
-          <div class="container">
-
-            <div class="testimonials-slider swiper" data-aos="fade-up" data-aos-delay="100" style="z-index: 0;">
-              <div class="swiper-wrapper">
-
-                <div class="swiper-slide">
-                  <div class="testimonial-wrap">
-                    <div class="testimonial-item">
-                      <img src="assets/img/testimonials/testimonials-1.jpg" class="testimonial-img" alt="">
-                      <h3>Saul Goodman</h3>
-                      <h4>Ceo &amp; Founder</h4>
-                      <p>
-                        <i class="bx bxs-quote-alt-left quote-icon-left"></i>
-                        Proin iaculis purus consequat sem cure digni ssim donec porttitora entum suscipit rhoncus. Accusantium quam, ultricies eget id, aliquam eget nibh et. Maecen aliquam, risus at semper.
-                        <i class="bx bxs-quote-alt-right quote-icon-right"></i>
-                      </p>
-                    </div>
-                  </div>
-                </div><!-- End testimonial item -->
-
-                <div class="swiper-slide">
-                  <div class="testimonial-wrap">
-                    <div class="testimonial-item">
-                      <img src="assets/img/testimonials/testimonials-2.jpg" class="testimonial-img" alt="">
-                      <h3>Sara Wilsson</h3>
-                      <h4>Designer</h4>
-                      <p>
-                        <i class="bx bxs-quote-alt-left quote-icon-left"></i>
-                        Export tempor illum tamen malis malis eram quae irure esse labore quem cillum quid cillum eram malis quorum velit fore eram velit sunt aliqua noster fugiat irure amet legam anim culpa.
-                        <i class="bx bxs-quote-alt-right quote-icon-right"></i>
-                      </p>
-                    </div>
-                  </div>
-                </div><!-- End testimonial item -->
-
-                <div class="swiper-slide">
-                  <div class="testimonial-wrap">
-                    <div class="testimonial-item">
-                      <img src="assets/img/testimonials/testimonials-3.jpg" class="testimonial-img" alt="">
-                      <h3>Jena Karlis</h3>
-                      <h4>Store Owner</h4>
-                      <p>
-                        <i class="bx bxs-quote-alt-left quote-icon-left"></i>
-                        Enim nisi quem export duis labore cillum quae magna enim sint quorum nulla quem veniam duis minim tempor labore quem eram duis noster aute amet eram fore quis sint minim.
-                        <i class="bx bxs-quote-alt-right quote-icon-right"></i>
-                      </p>
-                    </div>
-                  </div>
-                </div><!-- End testimonial item -->
-
-                <div class="swiper-slide">
-                  <div class="testimonial-wrap">
-                    <div class="testimonial-item">
-                      <img src="assets/img/testimonials/testimonials-4.jpg" class="testimonial-img" alt="">
-                      <h3>Matt Brandon</h3>
-                      <h4>Freelancer</h4>
-                      <p>
-                        <i class="bx bxs-quote-alt-left quote-icon-left"></i>
-                        Fugiat enim eram quae cillum dolore dolor amet nulla culpa multos export minim fugiat minim velit minim dolor enim duis veniam ipsum anim magna sunt elit fore quem dolore labore illum veniam.
-                        <i class="bx bxs-quote-alt-right quote-icon-right"></i>
-                      </p>
-                    </div>
-                  </div>
-                </div><!-- End testimonial item -->
-
-                <div class="swiper-slide">
-                  <div class="testimonial-wrap">
-                    <div class="testimonial-item">
-                      <img src="assets/img/testimonials/testimonials-5.jpg" class="testimonial-img" alt="">
-                      <h3>John Larson</h3>
-                      <h4>Entrepreneur</h4>
-                      <p>
-                        <i class="bx bxs-quote-alt-left quote-icon-left"></i>
-                        Quis quorum aliqua sint quem legam fore sunt eram irure aliqua veniam tempor noster veniam enim culpa labore duis sunt culpa nulla illum cillum fugiat legam esse veniam culpa fore nisi cillum quid.
-                        <i class="bx bxs-quote-alt-right quote-icon-right"></i>
-                      </p>
-                    </div>
-                  </div>
-                </div><!-- End testimonial item -->
-
-              </div>
-              <div class="swiper-pagination"></div>
-            </div>
-
-          </div>
-        </section><!-- End Testimonials Section -->
 
         <!-- ======= Gallery Section ======= -->
         <section id="gallery" class="gallery">
@@ -1203,7 +1062,6 @@ if (!isset($_SESSION["login"]) || $role == 2) {
 
             <div class="section-title">
               <h2>Gallerie</h2>
-              <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>
             </div>
           </div>
 
@@ -1285,8 +1143,7 @@ if (!isset($_SESSION["login"]) || $role == 2) {
 
             <div class="section-title">
               <h2>Contactez-nous</h2>
-              <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>
-            </div>
+          </div>
           </div>
 
           <div>
@@ -1341,7 +1198,7 @@ if (!isset($_SESSION["login"]) || $role == 2) {
         <div class="container">
           <div class="row">
 
-            <div class="col-lg-3 col-md-6 footer-contact">
+            <div class="col-lg-3 col-md-6 footer-contact" style="margin-left: 240px;">
               <h3>Clinique</h3>
               <p>
                 Rue commandant bejaoui <br>
@@ -1366,22 +1223,16 @@ if (!isset($_SESSION["login"]) || $role == 2) {
             <div class="col-lg-3 col-md-6 footer-links">
               <h4>Our Services</h4>
               <ul>
-                <li><i class="bx bx-chevron-right"></i> <a href="#">Lorem epsim</a></li>
-                <li><i class="bx bx-chevron-right"></i> <a href="#">dolorem marquee</a></li>
-                <li><i class="bx bx-chevron-right"></i> <a href="#">d-md-inline</a></li>
-                <li><i class="bx bx-chevron-right"></i> <a href="#">dolorum</a></li>
-                <li><i class="bx bx-chevron-right"></i> <a href="#">badge</a></li>
+                <?php 
+                $de=runQuery("SELECT * from departement ");
+                foreach($de as $k=>$v){?>
+                <li><i class="bx bx-chevron-right"></i> <a href="#"><?php echo $de[$k]['nom_dep'] ?></a></li>
+                <?php } ?>
+               
               </ul>
             </div>
 
-            <div class="col-lg-4 col-md-6 footer-newsletter">
-              <h4>
-                Rejoignez notre newsletter</h4>
-              <p>Tamen quem nulla quae legam multos aute sint culpa legam noster magna</p>
-              <form action="" method="post">
-                <input type="email" name="email"><input type="submit" value="S'abonner">
-              </form>
-            </div>
+           
 
           </div>
         </div>
