@@ -1,8 +1,6 @@
-<p align="center"><img src="https://github.com/welidwg/clinique/blob/master/assets/img/Clinique.png" width="400"></p>
+<p align="center"><img src="https://github.com/welidwg/clinique/blob/master/assets/img/Clinique.png" width="200"></p>
 
-<p align="center">
-<h1 align="center">Clinique</h1>
-</p>
+
 
 ## About Clinique
 Clinique is a web application designed to efficiently manage clinic operations, including doctors and appointments. It streamlines scheduling, helps organize medical staff, and enhances patient appointment management for a smooth and effective healthcare experience. It was developed using native PHP.
